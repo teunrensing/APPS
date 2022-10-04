@@ -1,3 +1,4 @@
 (fp_lib_table
   (lib (name "testapparaat_footprint")(type "KiCad")(uri "${KIPRJMOD}/testapparaat_footprint.pretty")(options "")(descr ""))
+  (lib (name "LMR50410YFQDBVRQ1")(type "KiCad")(uri "${KIPRJMOD}/LMR50410YFQDBVRQ1/LMR50410YFQDBVRQ1.pretty")(options "")(descr ""))
 )
