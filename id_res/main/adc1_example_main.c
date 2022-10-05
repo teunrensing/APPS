@@ -1,7 +1,5 @@
 /* ADC1 Example
-
    This example code is in the Public Domain (or CC0 licensed, at your option.)
-
    Unless required by applicable law or agreed to in writing, this
    software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
    CONDITIONS OF ANY KIND, either express or implied.
@@ -15,23 +13,18 @@
 #include "esp_adc_cal.h"
 
 #define DEFAULT_VREF    1100        //Use adc2_vref_to_gpio() to obtain a better estimate
-#define NO_OF_SAMPLES   64          //Multisampling
+#define NO_OF_SAMPLES   1          //Multisampling
 
 static esp_adc_cal_characteristics_t *adc_chars;
-#if CONFIG_IDF_TARGET_ESP32
-static const adc_channel_t channel = ADC_CHANNEL_6;     //GPIO34 if ADC1, GPIO14 if ADC2
+static const adc_channel_t channel = ADC_CHANNEL_0;     //GPIO34 if ADC1, GPIO14 if ADC2
 static const adc_bits_width_t width = ADC_WIDTH_BIT_12;
-#elif CONFIG_IDF_TARGET_ESP32S2
-static const adc_channel_t channel = ADC_CHANNEL_6;     // GPIO7 if ADC1, GPIO17 if ADC2
-static const adc_bits_width_t width = ADC_WIDTH_BIT_13;
-#endif
-static const adc_atten_t atten = ADC_ATTEN_DB_0;
+
+static const adc_atten_t atten = ADC_ATTEN_DB_11;
 static const adc_unit_t unit = ADC_UNIT_1;
 
 
 static void check_efuse(void)
 {
-#if CONFIG_IDF_TARGET_ESP32
     //Check if TP is burned into eFuse
     if (esp_adc_cal_check_efuse(ESP_ADC_CAL_VAL_EFUSE_TP) == ESP_OK) {
         printf("eFuse Two Point: Supported\n");
@@ -44,15 +37,6 @@ static void check_efuse(void)
     } else {
         printf("eFuse Vref: NOT supported\n");
     }
-#elif CONFIG_IDF_TARGET_ESP32S2
-    if (esp_adc_cal_check_efuse(ESP_ADC_CAL_VAL_EFUSE_TP) == ESP_OK) {
-        printf("eFuse Two Point: Supported\n");
-    } else {
-        printf("Cannot retrieve eFuse Two Point calibration values. Default calibration values will be used.\n");
-    }
-#else
-#error "This example is configured for ESP32/ESP32S2."
-#endif
 }
 
 
@@ -89,10 +73,12 @@ void app_main(void)
     //Continuously sample ADC1
     while (1) {
         uint32_t adc_reading = 0;
+        uint32_t adc_reading_2 = 0;
         //Multisampling
         for (int i = 0; i < NO_OF_SAMPLES; i++) {
             if (unit == ADC_UNIT_1) {
                 adc_reading += adc1_get_raw((adc1_channel_t)channel);
+                 adc_reading_2 += adc1_get_raw((adc1_channel_t)ADC_CHANNEL_3);
             } else {
                 int raw;
                 adc2_get_raw((adc2_channel_t)channel, width, &raw);
@@ -102,7 +88,9 @@ void app_main(void)
         adc_reading /= NO_OF_SAMPLES;
         //Convert adc_reading to voltage in mV
         uint32_t voltage = esp_adc_cal_raw_to_voltage(adc_reading, adc_chars);
-        printf("Raw: %d\tVoltage: %dmV\n", adc_reading, voltage);
-        vTaskDelay(pdMS_TO_TICKS(1000));
+         uint32_t voltage2 = esp_adc_cal_raw_to_voltage(adc_reading_2, adc_chars);
+        printf("Raw: %d\tVoltage: %dmV\t proto: %d\n", adc_reading, voltage, adc_reading < 1950 && adc_reading > 1875 ? 1 : 0);
+        printf("Raw: %d\tVoltage: %dmV\t proto: %d\n", adc_reading_2, voltage2, adc_reading_2 < 800 && adc_reading_2 > 500 ? 1 : 0);
+        vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
