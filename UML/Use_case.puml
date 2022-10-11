@@ -13,12 +13,11 @@ rectangle ucd {
 verpleegkundige --> (start/stop):start/stop
 verpleegkundige--> (setup): parameters
 verpleegkundige<-- (feedback): terugkoppeling
-(feedback) <--patient: terugkoppeling
+(feedback) -->patient: krijg feedback
+(feedback) <--patient: geef terugkoppeling
 (start/stop)<--patient: noodstop
 (feedback)-->monitor:visueel data weergeven
 (setup) <--monitor: instellen
 
 }
-
-
 @enduml
