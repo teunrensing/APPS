@@ -3,4 +3,5 @@
   (lib (name "LMR50410YFQDBVRQ1")(type "KiCad")(uri "${KIPRJMOD}/LMR50410YFQDBVRQ1/LMR50410YFQDBVRQ1.kicad_sym")(options "")(descr ""))
   (lib (name "Barrel_jack")(type "KiCad")(uri "${KIPRJMOD}/Barrel_Jack/Barrel_jack.kicad_sym")(options "")(descr ""))
   (lib (name "MEM2051")(type "KiCad")(uri "${KIPRJMOD}/MEM2051-00-195-00-A/MEM2051.kicad_sym")(options "")(descr ""))
+  (lib (name "74AHC1G02")(type "KiCad")(uri "${KIPRJMOD}/SN74AHC1G02DRLR/74AHC1G02.kicad_sym")(options "")(descr ""))
 )
