@@ -333,7 +333,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "Testapparaat.kicad_pro",
+    "filename": "Testapparaat_io.kicad_pro",
     "version": 1
   },
   "net_settings": {
@@ -404,7 +404,7 @@
       "workbook_filename": ""
     },
     "page_layout_descr_file": "",
-    "plot_directory": "../Schematic/",
+    "plot_directory": "",
     "spice_adjust_passive_values": false,
     "spice_external_command": "spice \"%I\"",
     "subpart_first_id": 65,
@@ -412,20 +412,8 @@
   },
   "sheets": [
     [
-      "04007555-4aeb-4052-b7ef-dcb25ca95f1e",
+      "7b565bff-f2cf-479b-baa6-9dc5414cac9a",
       ""
-    ],
-    [
-      "2a1f4b25-2db4-4c7f-ba5e-95c06f30cc5e",
-      "MCU"
-    ],
-    [
-      "4f3b2342-7904-4ebb-a56b-9b30c329f0be",
-      "Power Supply"
-    ],
-    [
-      "fe027ed7-4cb1-4ed0-8617-f47fa99d98a4",
-      "Display"
     ]
   ],
   "text_variables": {}

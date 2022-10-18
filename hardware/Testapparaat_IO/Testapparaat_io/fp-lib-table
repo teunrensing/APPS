@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name "MEM2051")(type "KiCad")(uri "/home/victor/esp/APPS/hardware/Testapparaat/MEM2051-00-195-00-A/MEM2051.pretty")(options "")(descr ""))
+  (lib (name "G17C0900132EU")(type "KiCad")(uri "/home/victor/esp/APPS/hardware/Testapparaat/G17C0900132EU.pretty")(options "")(descr ""))
+)

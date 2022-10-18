@@ -1,11 +1,4 @@
-20323923918038839
-74HC595D-Q100,118
-74HC595DQ100118
-74HC595D-Q100,118-2
-Integrated Circuit
-0
-16
-16
+20317259628422179
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -20,13 +13,6 @@ audio belton reverb
 0
 7
 7
-Barrel_jack
-GRAVITECH_CON-SOCJ-2155
-
-
-0
-3
-3
 Battery
 BatteryHolder_Bulgin_BX0036_1xC
 Bulgin Battery Holder, BX0036, Battery Type C (https://www.bulgin.com/products/pub/media/bulgin/data/Battery_holders.pdf)
@@ -57455,13 +57441,6 @@ Yellow 5381 Series LED
 0
 2
 2
-LMR50410YFQDBVRQ1
-SOT95P280X145-6N
-SOT-23 -1.45
-Power Supply
-0
-6
-6
 MEM2051
 MEM20510019500A
 MEM2051-00-195-00-A-3
@@ -80254,13 +80233,6 @@ Logo WEEE
 0
 0
 0
-TCA9534
-SOP65P640X120-16N
-PW
-Integrated Circuit
-0
-16
-16
 TerminalBlock
 TerminalBlock_Altech_AK300-2_P5.00mm
 Altech AK300 terminal block, pitch 5.0mm, 45 degree angled, see http://www.mouser.com/ds/2/16/PCBMETRC-24178.pdf

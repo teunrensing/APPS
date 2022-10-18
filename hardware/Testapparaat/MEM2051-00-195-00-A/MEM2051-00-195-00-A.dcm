@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP MEM2051-00-195-00-A
+D MICRO SD PUSH PUSH, OPEN, SMT, 1
+K
+F https://gct.co/files/drawings/mem2051.pdf
+$ENDCMP
+#
+#End Doc Library

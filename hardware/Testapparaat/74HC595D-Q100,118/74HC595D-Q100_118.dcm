@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP 74HC595D-Q100,118
+D 74HC(T)595-Q100 - 8-bit serial-in, serial or parallel-out shift register with output latches; 3-state@en-us
+K
+F https://assets.nexperia.com/documents/data-sheet/74HC_HCT595_Q100.pdf
+$ENDCMP
+#
+#End Doc Library

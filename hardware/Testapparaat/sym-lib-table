@@ -1,4 +1,6 @@
 (sym_lib_table
   (lib (name "testapparaat_symbols")(type "KiCad")(uri "${KIPRJMOD}/testapparaat_symbols.kicad_sym")(options "")(descr ""))
   (lib (name "LMR50410YFQDBVRQ1")(type "KiCad")(uri "${KIPRJMOD}/LMR50410YFQDBVRQ1/LMR50410YFQDBVRQ1.kicad_sym")(options "")(descr ""))
+  (lib (name "Barrel_jack")(type "KiCad")(uri "${KIPRJMOD}/Barrel_Jack/Barrel_jack.kicad_sym")(options "")(descr ""))
+  (lib (name "MEM2051")(type "KiCad")(uri "${KIPRJMOD}/MEM2051-00-195-00-A/MEM2051.kicad_sym")(options "")(descr ""))
 )

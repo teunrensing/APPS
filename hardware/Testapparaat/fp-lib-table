@@ -1,4 +1,9 @@
 (fp_lib_table
   (lib (name "testapparaat_footprint")(type "KiCad")(uri "${KIPRJMOD}/testapparaat_footprint.pretty")(options "")(descr ""))
   (lib (name "LMR50410YFQDBVRQ1")(type "KiCad")(uri "${KIPRJMOD}/LMR50410YFQDBVRQ1/LMR50410YFQDBVRQ1.pretty")(options "")(descr ""))
+  (lib (name "G17C0900132EU")(type "KiCad")(uri "${KIPRJMOD}/G17C0900132EU.pretty")(options "")(descr ""))
+  (lib (name "74HC595D-Q100,118")(type "KiCad")(uri "${KIPRJMOD}/74HC595D-Q100,118.pretty")(options "")(descr ""))
+  (lib (name "Barrel_jack")(type "KiCad")(uri "${KIPRJMOD}/Barrel_Jack/Barrel_jack.pretty")(options "")(descr ""))
+  (lib (name "TCA9534")(type "KiCad")(uri "${KIPRJMOD}/TCA9534PWR/TCA9534.pretty")(options "")(descr ""))
+  (lib (name "MEM2051")(type "KiCad")(uri "${KIPRJMOD}/MEM2051-00-195-00-A/MEM2051.pretty")(options "")(descr ""))
 )

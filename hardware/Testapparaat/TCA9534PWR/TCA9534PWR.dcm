@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP TCA9534PWR
+D Remote 8-Bit I2C Low-Power I/O Expander With Interrupt Output and Configuration Registers
+K
+F http://www.ti.com/lit/ds/symlink/tca9534.pdf
+$ENDCMP
+#
+#End Doc Library
