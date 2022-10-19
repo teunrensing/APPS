@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="E">
+  <design>
+    <source>/home/victor/esp/APPS/hardware/Testapparaat_IO/Testapparaat_io/Testapparaat_io.kicad_sch</source>
+    <date>wo 19 okt 2022 13:31:53 CEST</date>
+    <tool>Eeschema (6.0.7)</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>Testapparaat_io.kicad_sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+        <comment number="5" value=""/>
+        <comment number="6" value=""/>
+        <comment number="7" value=""/>
+        <comment number="8" value=""/>
+        <comment number="9" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="C1">
+      <value>0.1u</value>
+      <footprint>Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder</footprint>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="Testapparaat_io.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>18e01137-a643-4de4-8060-ec1eddbbe266</tstamps>
+    </comp>
+    <comp ref="C2">
+      <value>100n</value>
+      <footprint>Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder</footprint>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="Testapparaat_io.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>300296a4-9b33-4a35-82bf-012e31b142c1</tstamps>
+    </comp>
+    <comp ref="C3">
+      <value>0.1u</value>
+      <footprint>Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder</footprint>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="Testapparaat_io.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>2df02acc-c402-44ce-8639-2daf9e522fe0</tstamps>
+    </comp>
+    <comp ref="C4">
+      <value>0.1u</value>
+      <footprint>Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder</footprint>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="Testapparaat_io.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>27711d92-51b2-4a11-8731-7910e2b5049e</tstamps>
+    </comp>
+    <comp ref="C5">
+      <value>0.1u</value>
+      <footprint>Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder</footprint>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="Testapparaat_io.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>f5fa657c-6465-4988-9055-215bdd716eaa</tstamps>
+    </comp>
+    <comp ref="J1">
+      <value>IO_UART</value>
+      <footprint>Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Horizontal</footprint>
+      <libsource lib="Connector" part="Conn_01x04_Male" description="Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="Testapparaat_io.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>3a49ce46-8496-45c9-85c2-b4612a7af768</tstamps>
+    </comp>
+    <comp ref="J2">
+      <value>IO_SD</value>
+      <footprint>Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Horizontal</footprint>
+      <libsource lib="Connector" part="Conn_01x06_Male" description="Generic connector, single row, 01x06, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="Testapparaat_io.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>305ac0ed-b1eb-4f5a-bc32-67a4066e3e45</tstamps>
+    </comp>
+    <comp ref="J3">
+      <value>MEM2051-00-195-00-A</value>
+      <footprint>MEM2051:MEM20510019500A</footprint>
+      <datasheet>https://gct.co/files/drawings/mem2051.pdf</datasheet>
+      <fields>
+        <field name="Description">MICRO SD PUSH PUSH, OPEN, SMT, 1</field>
+        <field name="Height">2.05</field>
+        <field name="Manufacturer_Name">GCT (GLOBAL CONNECTOR TECHNOLOGY)</field>
+        <field name="Manufacturer_Part_Number">MEM2051-00-195-00-A</field>
+        <field name="Mouser Part Number">640-MEM20510019500A</field>
+        <field name="Mouser Price/Stock">https://www.mouser.co.uk/ProductDetail/GCT/MEM2051-00-195-00-A?qs=KUoIvG%2F9Ilat7yfJRNWXUQ%3D%3D</field>
+      </fields>
+      <libsource lib="MEM2051" part="MEM2051-00-195-00-A" description="MICRO SD PUSH PUSH, OPEN, SMT, 1"/>
+      <property name="Description" value="MICRO SD PUSH PUSH, OPEN, SMT, 1"/>
+      <property name="Height" value="2.05"/>
+      <property name="Manufacturer_Name" value="GCT (GLOBAL CONNECTOR TECHNOLOGY)"/>
+      <property name="Manufacturer_Part_Number" value="MEM2051-00-195-00-A"/>
+      <property name="Mouser Part Number" value="640-MEM20510019500A"/>
+      <property name="Mouser Price/Stock" value="https://www.mouser.co.uk/ProductDetail/GCT/MEM2051-00-195-00-A?qs=KUoIvG%2F9Ilat7yfJRNWXUQ%3D%3D"/>
+      <property name="Arrow Part Number" value=""/>
+      <property name="Arrow Price/Stock" value=""/>
+      <property name="Mouser Testing Part Number" value=""/>
+      <property name="Mouser Testing Price/Stock" value=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="Testapparaat_io.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>13be6c1b-2dfa-4ddb-9953-f92d4c4bbb18</tstamps>
+    </comp>
+    <comp ref="J4">
+      <value>DB9_Female</value>
+      <footprint>G17C0900132EU:G17C0900132EU</footprint>
+      <datasheet> ~</datasheet>
+      <libsource lib="Connector" part="DB9_Female" description="9-pin female D-SUB connector"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="Testapparaat_io.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>d68be53e-d81e-4b62-8a04-a2c0a7f94237</tstamps>
+    </comp>
+    <comp ref="RN1">
+      <value>R_Network04</value>
+      <footprint>Resistor_THT:R_Array_SIP5</footprint>
+      <datasheet>http://www.vishay.com/docs/31509/csc.pdf</datasheet>
+      <libsource lib="Device" part="R_Network04" description="4 resistor network, star topology, bussed resistors, small symbol"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="Testapparaat_io.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>f5a7f379-884d-46ca-9acd-809a3bb0028c</tstamps>
+    </comp>
+    <comp ref="U1">
+      <value>MAX3232</value>
+      <footprint>Package_SO:TSSOP-16_4.4x5mm_P0.65mm</footprint>
+      <datasheet>https://datasheets.maximintegrated.com/en/ds/MAX3222-MAX3241.pdf</datasheet>
+      <libsource lib="Interface_UART" part="MAX3232" description="3.0V to 5.5V, Low-Power, up to 1Mbps, True RS-232 Transceivers Using Four 0.1μF External Capacitors"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="Testapparaat_io.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>b04a2ef4-32d1-4657-98ee-194e5f3e8677</tstamps>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="Connector" part="Conn_01x04_Male">
+      <description>Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>Connector*:*_1x??_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">Conn_01x04_Male</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Pin_1" type="passive"/>
+        <pin num="2" name="Pin_2" type="passive"/>
+        <pin num="3" name="Pin_3" type="passive"/>
+        <pin num="4" name="Pin_4" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Connector" part="Conn_01x06_Male">
+      <description>Generic connector, single row, 01x06, script generated (kicad-library-utils/schlib/autogen/connector/)</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>Connector*:*_1x??_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">Conn_01x06_Male</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Pin_1" type="passive"/>
+        <pin num="2" name="Pin_2" type="passive"/>
+        <pin num="3" name="Pin_3" type="passive"/>
+        <pin num="4" name="Pin_4" type="passive"/>
+        <pin num="5" name="Pin_5" type="passive"/>
+        <pin num="6" name="Pin_6" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Connector" part="DB9_Female">
+      <description>9-pin female D-SUB connector</description>
+      <docs> ~</docs>
+      <footprints>
+        <fp>DSUB*Female*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">DB9_Female</field>
+        <field name="Datasheet"> ~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+        <pin num="3" name="3" type="passive"/>
+        <pin num="4" name="4" type="passive"/>
+        <pin num="5" name="5" type="passive"/>
+        <pin num="6" name="6" type="passive"/>
+        <pin num="7" name="7" type="passive"/>
+        <pin num="8" name="8" type="passive"/>
+        <pin num="9" name="9" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="C">
+      <description>Unpolarized capacitor</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>C_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="passive"/>
+        <pin num="2" name="" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="R_Network04">
+      <description>4 resistor network, star topology, bussed resistors, small symbol</description>
+      <docs>http://www.vishay.com/docs/31509/csc.pdf</docs>
+      <footprints>
+        <fp>R?Array?SIP*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">RN</field>
+        <field name="Value">R_Network04</field>
+        <field name="Footprint">Resistor_THT:R_Array_SIP5</field>
+        <field name="Datasheet">http://www.vishay.com/docs/31509/csc.pdf</field>
+      </fields>
+      <pins>
+        <pin num="1" name="common" type="passive"/>
+        <pin num="2" name="R1" type="passive"/>
+        <pin num="3" name="R2" type="passive"/>
+        <pin num="4" name="R3" type="passive"/>
+        <pin num="5" name="R4" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Interface_UART" part="MAX3232">
+      <description>3.0V to 5.5V, Low-Power, up to 1Mbps, True RS-232 Transceivers Using Four 0.1μF External Capacitors</description>
+      <docs>https://datasheets.maximintegrated.com/en/ds/MAX3222-MAX3241.pdf</docs>
+      <footprints>
+        <fp>SOIC*P1.27mm*</fp>
+        <fp>DIP*W7.62mm*</fp>
+        <fp>TSSOP*4.4x5mm*P0.65mm*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">MAX3232</field>
+        <field name="Datasheet">https://datasheets.maximintegrated.com/en/ds/MAX3222-MAX3241.pdf</field>
+      </fields>
+      <pins>
+        <pin num="1" name="C1+" type="passive"/>
+        <pin num="2" name="VS+" type="power_out"/>
+        <pin num="3" name="C1-" type="passive"/>
+        <pin num="4" name="C2+" type="passive"/>
+        <pin num="5" name="C2-" type="passive"/>
+        <pin num="6" name="VS-" type="power_out"/>
+        <pin num="7" name="T2OUT" type="output"/>
+        <pin num="8" name="R2IN" type="input"/>
+        <pin num="9" name="R2OUT" type="output"/>
+        <pin num="10" name="T2IN" type="input"/>
+        <pin num="11" name="T1IN" type="input"/>
+        <pin num="12" name="R1OUT" type="output"/>
+        <pin num="13" name="R1IN" type="input"/>
+        <pin num="14" name="T1OUT" type="output"/>
+        <pin num="15" name="GND" type="power_in"/>
+        <pin num="16" name="VCC" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="MEM2051" part="MEM2051-00-195-00-A">
+      <description>MICRO SD PUSH PUSH, OPEN, SMT, 1</description>
+      <docs>https://gct.co/files/drawings/mem2051.pdf</docs>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">MEM2051-00-195-00-A</field>
+        <field name="Footprint">MEM20510019500A</field>
+        <field name="Datasheet">https://gct.co/files/drawings/mem2051.pdf</field>
+        <field name="Description">MICRO SD PUSH PUSH, OPEN, SMT, 1</field>
+        <field name="Height">2.05</field>
+        <field name="Manufacturer_Name">GCT (GLOBAL CONNECTOR TECHNOLOGY)</field>
+        <field name="Manufacturer_Part_Number">MEM2051-00-195-00-A</field>
+        <field name="Mouser Part Number">640-MEM20510019500A</field>
+        <field name="Mouser Price/Stock">https://www.mouser.co.uk/ProductDetail/GCT/MEM2051-00-195-00-A?qs=KUoIvG%2F9Ilat7yfJRNWXUQ%3D%3D</field>
+      </fields>
+      <pins>
+        <pin num="MP1" name="MP1" type="passive"/>
+        <pin num="MP2" name="MP2" type="passive"/>
+        <pin num="MP3" name="MP3" type="passive"/>
+        <pin num="MP4" name="MP4" type="passive"/>
+        <pin num="MP5" name="MP5" type="passive"/>
+        <pin num="P1" name="DAT2" type="passive"/>
+        <pin num="P2" name="CD/DAT3" type="passive"/>
+        <pin num="P3" name="CMD" type="passive"/>
+        <pin num="P4" name="VDD" type="passive"/>
+        <pin num="P5" name="CLK" type="passive"/>
+        <pin num="P6" name="VSS" type="passive"/>
+        <pin num="P7" name="DAT0" type="passive"/>
+        <pin num="P8" name="DAT1" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="Connector">
+      <uri>/usr/share/kicad/symbols//Connector.kicad_sym</uri>
+    </library>
+    <library logical="Device">
+      <uri>/usr/share/kicad/symbols//Device.kicad_sym</uri>
+    </library>
+    <library logical="Interface_UART">
+      <uri>/usr/share/kicad/symbols//Interface_UART.kicad_sym</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="+3.3V">
+      <node ref="C2" pin="1" pintype="passive"/>
+      <node ref="J1" pin="1" pinfunction="Pin_1" pintype="passive"/>
+      <node ref="J2" pin="1" pinfunction="Pin_1" pintype="passive"/>
+      <node ref="J3" pin="P4" pinfunction="VDD" pintype="passive"/>
+      <node ref="RN1" pin="1" pinfunction="common" pintype="passive"/>
+      <node ref="U1" pin="16" pinfunction="VCC" pintype="power_in"/>
+    </net>
+    <net code="2" name="GND">
+      <node ref="C2" pin="2" pintype="passive"/>
+      <node ref="C4" pin="1" pintype="passive"/>
+      <node ref="C5" pin="2" pintype="passive"/>
+      <node ref="J1" pin="4" pinfunction="Pin_4" pintype="passive"/>
+      <node ref="J2" pin="6" pinfunction="Pin_6" pintype="passive"/>
+      <node ref="J3" pin="MP1" pinfunction="MP1" pintype="passive"/>
+      <node ref="J3" pin="MP2" pinfunction="MP2" pintype="passive"/>
+      <node ref="J3" pin="MP3" pinfunction="MP3" pintype="passive"/>
+      <node ref="J3" pin="MP4" pinfunction="MP4" pintype="passive"/>
+      <node ref="J3" pin="MP5" pinfunction="MP5" pintype="passive"/>
+      <node ref="J3" pin="P6" pinfunction="VSS" pintype="passive"/>
+      <node ref="J4" pin="5" pinfunction="5" pintype="passive"/>
+      <node ref="U1" pin="11" pinfunction="T1IN" pintype="input"/>
+      <node ref="U1" pin="13" pinfunction="R1IN" pintype="input"/>
+      <node ref="U1" pin="15" pinfunction="GND" pintype="power_in"/>
+    </net>
+    <net code="3" name="Net-(C1-Pad1)">
+      <node ref="C1" pin="1" pintype="passive"/>
+      <node ref="U1" pin="1" pinfunction="C1+" pintype="passive"/>
+    </net>
+    <net code="4" name="Net-(C1-Pad2)">
+      <node ref="C1" pin="2" pintype="passive"/>
+      <node ref="U1" pin="3" pinfunction="C1-" pintype="passive"/>
+    </net>
+    <net code="5" name="Net-(C3-Pad1)">
+      <node ref="C3" pin="1" pintype="passive"/>
+      <node ref="U1" pin="4" pinfunction="C2+" pintype="passive"/>
+    </net>
+    <net code="6" name="Net-(C3-Pad2)">
+      <node ref="C3" pin="2" pintype="passive"/>
+      <node ref="U1" pin="5" pinfunction="C2-" pintype="passive"/>
+    </net>
+    <net code="7" name="Net-(C4-Pad2)">
+      <node ref="C4" pin="2" pintype="passive"/>
+      <node ref="U1" pin="2" pinfunction="VS+" pintype="power_out"/>
+    </net>
+    <net code="8" name="Net-(C5-Pad1)">
+      <node ref="C5" pin="1" pintype="passive"/>
+      <node ref="U1" pin="6" pinfunction="VS-" pintype="power_out"/>
+    </net>
+    <net code="9" name="Net-(J3-PadP1)">
+      <node ref="J3" pin="P1" pinfunction="DAT2" pintype="passive"/>
+      <node ref="RN1" pin="5" pinfunction="R4" pintype="passive"/>
+    </net>
+    <net code="10" name="Net-(J3-PadP8)">
+      <node ref="J3" pin="P8" pinfunction="DAT1" pintype="passive"/>
+      <node ref="RN1" pin="2" pinfunction="R1" pintype="passive"/>
+    </net>
+    <net code="11" name="Net-(J4-Pad2)">
+      <node ref="J4" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="U1" pin="7" pinfunction="T2OUT" pintype="output"/>
+    </net>
+    <net code="12" name="Net-(J4-Pad3)">
+      <node ref="J4" pin="3" pinfunction="3" pintype="passive"/>
+      <node ref="U1" pin="8" pinfunction="R2IN" pintype="input"/>
+    </net>
+    <net code="13" name="Net-(J4-Pad4)">
+      <node ref="J4" pin="4" pinfunction="4" pintype="passive"/>
+      <node ref="J4" pin="6" pinfunction="6" pintype="passive"/>
+    </net>
+    <net code="14" name="Net-(J4-Pad7)">
+      <node ref="J4" pin="7" pinfunction="7" pintype="passive"/>
+      <node ref="J4" pin="8" pinfunction="8" pintype="passive"/>
+    </net>
+    <net code="15" name="RXD">
+      <node ref="J1" pin="3" pinfunction="Pin_3" pintype="passive"/>
+      <node ref="U1" pin="9" pinfunction="R2OUT" pintype="output"/>
+    </net>
+    <net code="16" name="SD_CS">
+      <node ref="J2" pin="5" pinfunction="Pin_5" pintype="passive"/>
+      <node ref="J3" pin="P2" pinfunction="CD/DAT3" pintype="passive"/>
+      <node ref="RN1" pin="4" pinfunction="R3" pintype="passive"/>
+    </net>
+    <net code="17" name="SPI_CLK">
+      <node ref="J2" pin="3" pinfunction="Pin_3" pintype="passive"/>
+      <node ref="J3" pin="P5" pinfunction="CLK" pintype="passive"/>
+    </net>
+    <net code="18" name="SPI_MISO">
+      <node ref="J2" pin="2" pinfunction="Pin_2" pintype="passive"/>
+      <node ref="J3" pin="P7" pinfunction="DAT0" pintype="passive"/>
+      <node ref="RN1" pin="3" pinfunction="R2" pintype="passive"/>
+    </net>
+    <net code="19" name="SPI_MOSI">
+      <node ref="J2" pin="4" pinfunction="Pin_4" pintype="passive"/>
+      <node ref="J3" pin="P3" pinfunction="CMD" pintype="passive"/>
+    </net>
+    <net code="20" name="TXD">
+      <node ref="J1" pin="2" pinfunction="Pin_2" pintype="passive"/>
+      <node ref="U1" pin="10" pinfunction="T2IN" pintype="input"/>
+    </net>
+    <net code="21" name="unconnected-(J4-Pad1)">
+      <node ref="J4" pin="1" pinfunction="1" pintype="passive+no_connect"/>
+    </net>
+    <net code="22" name="unconnected-(J4-Pad9)">
+      <node ref="J4" pin="9" pinfunction="9" pintype="passive+no_connect"/>
+    </net>
+    <net code="23" name="unconnected-(U1-Pad12)">
+      <node ref="U1" pin="12" pinfunction="R1OUT" pintype="output+no_connect"/>
+    </net>
+    <net code="24" name="unconnected-(U1-Pad14)">
+      <node ref="U1" pin="14" pinfunction="T1OUT" pintype="output+no_connect"/>
+    </net>
+  </nets>
+</export>
