@@ -1,4 +1,4 @@
-/* * Data converted from D:/git/APPS/Shift_Reg/build/esp-idf/mbedtls/x509_crt_bundle
+/* * Data converted from D:/git/APPS/shift_reg/build/esp-idf/mbedtls/x509_crt_bundle
  */
 .data
 .section .rodata.embedded

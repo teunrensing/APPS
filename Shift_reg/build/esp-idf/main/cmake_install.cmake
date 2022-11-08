@@ -1,8 +1,8 @@
-# Install script for directory: D:/git/APPS/Shift_Reg/main
+# Install script for directory: D:/git/APPS/shift_reg/main
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/Shift_Reg")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/shift_reg")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
