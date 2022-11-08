@@ -13,6 +13,7 @@
 #include "esp_log.h"
 #include "led_strip.h"
 #include "sdkconfig.h"
+#include "pins.h"
 
 static const char *TAG = "example";
 
@@ -22,6 +23,23 @@ static const char *TAG = "example";
 #define BLINK_GPIO CONFIG_BLINK_GPIO
 
 static uint8_t s_led_state = 0;
+
+static void setup_shift_register(void){
+ ESP_LOGI(TAG, "Setup GPIO shift register.");
+ for(int i =data_pin; i!=srclck;i++){
+       gpio_reset_pin(i);
+    /* Set the GPIO as a push/pull output */
+    gpio_set_direction(i, GPIO_MODE_OUTPUT);
+ }
+
+}
+
+static void shift_register(void){
+ /* Set the GPIO level according to the state (LOW or HIGH)*/
+gpio_set_level(BLINK_GPIO, s_led_state);
+
+}
+
 
 #ifdef CONFIG_BLINK_LED_RMT
 static led_strip_t *pStrip_a;
