@@ -1,6 +1,0 @@
-[submodule "APPS_MAIN/components/lvgl"]
-	path = APPS_MAIN/components/lvgl
-	url = https://github.com/lvgl/lvgl.git
-[submodule "APPS_MAIN/components/lvgl_esp32_drivers"]
-	path = APPS_MAIN/components/lvgl_esp32_drivers
-	url = https://github.com/lvgl/lvgl_esp32_drivers.git
