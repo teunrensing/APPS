@@ -17,15 +17,32 @@
 
 static const char *TAG = "example";
 
-static char shift_reg_state = 00000000;
+
 
 static void setup_shift_register(void){
  ESP_LOGI(TAG, "Setup GPIO shift register.");
- for(int i =data_pin; i!=srclck;i++){
+ for(int i =OUTPUT_ENABLE; i!=33;i++){
        gpio_reset_pin(i);
     /* Set the GPIO as a push/pull output */
     gpio_set_direction(i, GPIO_MODE_OUTPUT);
+    if(i==SRSCLK){i=i+4;} 
  }
+
+}
+
+static void shift_register_update(void){
+    /*miss nodig, nog niet zeker*/
+}
+
+static void shift_register_insert(int position, char value){
+    static char shift_reg_state[7] = "00000000";
+
+    if(position>=0 && position<8){
+        if(value == '1' || value=='0'){
+        shift_reg_state[position]= value;
+    }}
+ /* Set the GPIO level according to the state (LOW or HIGH)*/
+//gpio_set_level(BLINK_GPIO, s_led_state);
 
 }
 
@@ -42,7 +59,6 @@ void app_main(void)
 
     while (1) {
         /* Toggle the LED state */
-        //s_led_state = !s_led_state;
         vTaskDelay(CONFIG_BLINK_PERIOD / portTICK_PERIOD_MS);
     }
 }
