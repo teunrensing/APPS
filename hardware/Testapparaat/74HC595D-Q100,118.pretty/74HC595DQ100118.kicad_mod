@@ -1,6 +1,6 @@
 (footprint "74HC595DQ100118" (version 20211014) (generator pcbnew)
   (layer "F.Cu")
-  (tedit 0)
+  (tedit 636CF942)
   (descr "74HC595D-Q100,118-2")
   (tags "Integrated Circuit")
   (attr smd)
@@ -46,8 +46,8 @@
   (pad "14" smd rect (at -1.905 -2.825) (size 0.7 1.75) (layers "F.Cu" "F.Paste" "F.Mask") (tstamp c2e5712a-3b80-4f97-b95f-35989dfeaff9))
   (pad "15" smd rect (at -3.175 -2.825) (size 0.7 1.75) (layers "F.Cu" "F.Paste" "F.Mask") (tstamp 9fa2cd27-8a67-4ec8-acf6-4f6a819d87af))
   (pad "16" smd rect (at -4.495 -2.825) (size 0.8 1.75) (layers "F.Cu" "F.Paste" "F.Mask") (tstamp a946a483-8347-470a-b438-b51e76db4618))
-  (model "74HC595D-Q100,118.stp"
-    (offset (xyz -4.229999956 6.699999709 -4.239999707))
+  (model "${KIPRJMOD}/74HC595D-Q100,118/74HC595D-Q100,118.stp"
+    (offset (xyz -4.15 6.5 -4.2))
     (scale (xyz 1 1 1))
     (rotate (xyz -90 0 0))
   )
