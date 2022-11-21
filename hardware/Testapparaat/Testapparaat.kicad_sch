@@ -5611,10 +5611,10 @@
       (reference "J14") (unit 1) (value "GPIO_OUTPUT") (footprint "Connector_PinHeader_2.54mm:PinHeader_2x04_P2.54mm_Vertical_SMD")
     )
     (path "/4f3b2342-7904-4ebb-a56b-9b30c329f0be/3ee47151-051e-48c7-8102-ea7b996886b9"
-      (reference "L1") (unit 1) (value "68uH") (footprint "srr1260:SRR1260-680M")
+      (reference "L1") (unit 1) (value "68uH") (footprint "Inductor_SMD:L_Bourns_SRR1260")
     )
     (path "/4f3b2342-7904-4ebb-a56b-9b30c329f0be/e31e2a03-e3cf-4048-94c2-57aee9ebcca4"
-      (reference "L2") (unit 1) (value "68uH") (footprint "srr1260:SRR1260-680M")
+      (reference "L2") (unit 1) (value "68uH") (footprint "Inductor_SMD:L_Bourns_SRR1260")
     )
     (path "/2a1f4b25-2db4-4c7f-ba5e-95c06f30cc5e/f0953e1c-23f9-4ea9-bfba-d3dc325efc70"
       (reference "Q1") (unit 1) (value "BC817") (footprint "Package_TO_SOT_SMD:SOT-23")
