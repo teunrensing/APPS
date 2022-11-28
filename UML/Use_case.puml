@@ -1,0 +1,23 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+actor verpleegkundige
+actor patient
+actor monitor
+rectangle ucd {
+  
+  (setup).>(start/stop)
+  (start/stop)..>(feedback)
+  (feedback).>(setup)
+
+verpleegkundige --> (start/stop):start/stop
+verpleegkundige--> (setup): parameters
+verpleegkundige<-- (feedback): terugkoppeling
+(feedback) -->patient: krijg feedback
+(feedback) <--patient: geef terugkoppeling
+(start/stop)<--patient: noodstop
+(feedback)-->monitor:visueel data weergeven
+(setup) <--monitor: instellen
+
+}
+@enduml

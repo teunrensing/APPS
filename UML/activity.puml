@@ -1,0 +1,55 @@
+@startuml
+
+
+partition "Gebruiker output"{
+    ===Output=== --> (*)
+}
+
+
+
+
+
+partition Feedback_generator {
+ "Check status" --> === status ===
+  --> "Check parameters"
+  --> === S2 ===
+  --> "Initialize feedback modules"
+  --> "Turn output on"
+  --> ===Output===
+}
+
+
+partition AAN/UIT {
+=== S4 === --> "Status" 
+--> === status ===
+}
+
+partition Feedback_parameters {
+ === S3 === --> "Get parameters" 
+ --> === S2 ===
+ ===S3 === --> "Show parameters on display" 
+ --> ===Output===
+}
+
+partition "Gebruiker input" {
+    (*) --> "Emergency stop"
+    --> ===S4===
+    (*) --> "stop/start"
+    --> ===S4===
+    (*) --> "Feedback settings"
+    --> ===S3===
+}
+
+partition "Logging and communication ports" {
+    ===Output=== --> "Log everything to external storage"
+    ===Output=== --> "Log everything to console port"
+    "Parameters received on console port"--> ===S3===
+}
+
+
+partition "Feedback module" {
+    "Get module type" --> === S2 ===
+    "Get module properties" --> === S2 ===
+}
+
+@enduml
