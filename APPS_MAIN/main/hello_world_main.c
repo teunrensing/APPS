@@ -71,12 +71,50 @@ void app_main(void)
             (chip_info.features & CHIP_FEATURE_EMB_FLASH) ? "embedded" : "external");
 
     printf("Minimum free heap size: %d bytes\n", esp_get_minimum_free_heap_size());
+    gpio_pad_select_gpio(GPIO_NUM_32);
+    gpio_set_direction(GPIO_NUM_32, GPIO_MODE_INPUT);
+        gpio_pad_select_gpio(GPIO_NUM_34);
+    gpio_set_direction(GPIO_NUM_34, GPIO_MODE_INPUT);
+        gpio_pad_select_gpio(GPIO_NUM_35);
+    gpio_set_direction(GPIO_NUM_35, GPIO_MODE_INPUT);
     xTaskCreatePinnedToCore(guiTask, "gui", 4096*2, NULL, 0, NULL, 1);
 }
 
 
 
 SemaphoreHandle_t xGuiSemaphore;
+
+int enc_get_new_moves(){
+    bool turnstate = gpio_get_level(GPIO_NUM_35);
+    bool dir = gpio_get_level(GPIO_NUM_34);
+    if(turnstate && dir) return 1;
+    else if(turnstate && !dir) return -1;
+    else return 0;
+}
+
+bool send_pressed(lv_indev_drv_t * drv, lv_indev_data_t*data){
+    //if(data->state == LV_INDEV_STATE_PR)
+        //lv_event_send(ui_Startup, LV_EVENT_CLICKED, NULL);
+    return false;
+}
+
+bool enc_pressed(){
+    return !gpio_get_level(GPIO_NUM_32);
+}
+
+bool encoder_read(lv_indev_drv_t * drv, lv_indev_data_t*data){
+  data->enc_diff = enc_get_new_moves();
+  //printf("Reading encoder! \n");
+  if(!enc_pressed()){
+      data->state = LV_INDEV_STATE_PR;
+      lv_event_send(ui_Startup, LV_EVENT_CLICKED, NULL);
+  } 
+  else data->state = LV_INDEV_STATE_REL;
+  
+  return false; /*No buffering now so no more data read*/
+}
+
+
 
 static void guiTask(void *pvParameter) {
 
@@ -118,6 +156,13 @@ static void guiTask(void *pvParameter) {
 
     disp_drv.draw_buf = &disp_buf;
     lv_disp_drv_register(&disp_drv);
+    lv_indev_drv_t indev_drv;
+    lv_indev_drv_init(&indev_drv);      /*Basic initialization*/
+    indev_drv.type = LV_INDEV_TYPE_ENCODER;
+    indev_drv.read_cb = encoder_read;
+    indev_drv.feedback_cb = send_pressed;
+    lv_indev_t * my_indev = lv_indev_drv_register(&indev_drv);
+    lv_indev_enable(my_indev, 1);
 
     /* Register an input device when enabled on the menuconfig */
     //lv_indev_drv_t indev_drv;
@@ -135,7 +180,9 @@ static void guiTask(void *pvParameter) {
     esp_timer_handle_t periodic_timer;
     ESP_ERROR_CHECK(esp_timer_create(&periodic_timer_args, &periodic_timer));
     ESP_ERROR_CHECK(esp_timer_start_periodic(periodic_timer, LV_TICK_PERIOD_MS * 1000));
-
+    lv_group_t * g = lv_group_create();
+    lv_group_set_default(g);
+    lv_indev_set_group(my_indev, g);
     /* Create the demo application */
     //create_demo_application();
     ui_init();
