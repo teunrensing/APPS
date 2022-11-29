@@ -14,6 +14,8 @@
 #include "sdkconfig.h"
 #include "shift_reg.h"
 
+char shift_reg_state[] = {"00000000"};
+
 void config_shift_register(void)
 {
     gpio_config_t io_config = {};
