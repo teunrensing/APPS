@@ -1,9 +1,6 @@
 [submodule "APPS_MAIN/components/lvgl"]
 	path = APPS_MAIN/components/lvgl
 	url = https://github.com/lvgl/lvgl.git
-[submodule "APPS_MAIN/components/lvgl_esp32_drivers"]
-	path = APPS_MAIN/components/lvgl_esp32_drivers
-	url = https://github.com/lvgl/lvgl_esp32_drivers.git
 [submodule "APPS_MAIN/components/TCA9534_IDF"]
 	path = APPS_MAIN/components/TCA9534_IDF
 	url = https://github.com/Hoog-V/TCA9534_IDF.git
