@@ -32,7 +32,8 @@
 #endif
 
 #include "lvgl_helpers.h"
-
+#include "ui.h"
+//#include "lv_examples/src/lv_demo_benchmark/lv_demo_benchmark.h"
 
 
 /*********************
@@ -40,7 +41,9 @@
  *********************/
 #define TAG "demo"
 #define LV_TICK_PERIOD_MS 1
-
+# define LV_HOR_RES_MAX 320
+# define LV_VER_RES_MAX 480
+# define SPI_HOST_MAX 3
 /**********************
  *  STATIC PROTOTYPES
  **********************/
@@ -92,14 +95,14 @@ static void guiTask(void *pvParameter) {
     lv_color_t* buf2 = heap_caps_malloc(DISP_BUF_SIZE * sizeof(lv_color_t), MALLOC_CAP_DMA);
     assert(buf2 != NULL);
 
-    static lv_disp_buf_t disp_buf;
+    static lv_disp_draw_buf_t disp_buf;
 
     uint32_t size_in_px = DISP_BUF_SIZE;
 
 
     /* Initialize the working buffer depending on the selected display.
      * NOTE: buf2 == NULL when using monochrome displays. */
-    lv_disp_buf_init(&disp_buf, buf1, buf2, size_in_px);
+    lv_disp_draw_buf_init(&disp_buf, buf1, buf2, size_in_px);
 
     lv_disp_drv_t disp_drv;
     lv_disp_drv_init(&disp_drv);
@@ -108,17 +111,20 @@ static void guiTask(void *pvParameter) {
     /* When using a monochrome display we need to register the callbacks:
      * - rounder_cb
      * - set_px_cb */
+    disp_drv.hor_res = 320;
+    disp_drv.ver_res=480;
+    disp_drv.physical_hor_res = -1;
+    disp_drv.physical_ver_res = -1;
 
-
-    disp_drv.buffer = &disp_buf;
+    disp_drv.draw_buf = &disp_buf;
     lv_disp_drv_register(&disp_drv);
 
     /* Register an input device when enabled on the menuconfig */
-    lv_indev_drv_t indev_drv;
-    lv_indev_drv_init(&indev_drv);
-    indev_drv.read_cb = touch_driver_read;
-    indev_drv.type = LV_INDEV_TYPE_POINTER;
-    lv_indev_drv_register(&indev_drv);
+    //lv_indev_drv_t indev_drv;
+    //lv_indev_drv_init(&indev_drv);
+    //indev_drv.read_cb = touch_driver_read;
+    //indev_drv.type = LV_INDEV_TYPE_POINTER;
+    //lv_indev_drv_register(&indev_drv);
 
 
     /* Create and start a periodic timer interrupt to call lv_tick_inc */
@@ -131,8 +137,10 @@ static void guiTask(void *pvParameter) {
     ESP_ERROR_CHECK(esp_timer_start_periodic(periodic_timer, LV_TICK_PERIOD_MS * 1000));
 
     /* Create the demo application */
-    create_demo_application();
-
+    //create_demo_application();
+    ui_init();
+    //vTaskDelay(pdMS_TO_TICKS(1000));
+    //lv_event_send(ui_Startup, LV_EVENT_CLICKED, NULL);
     while (1) {
         /* Delay 1 tick (assumes FreeRTOS tick is 10ms */
         vTaskDelay(pdMS_TO_TICKS(10));
@@ -160,9 +168,19 @@ static void create_demo_application(void)
 
     //lv_demo_widgets();
 
+    /* use a pretty small demo for monochrome displays */
+    /* Get the current screen  */
+    lv_obj_t * scr = lv_disp_get_scr_act(NULL);
+    /*Create a Label on the currently active screen*/
+    lv_obj_t * label1 =  lv_label_create(scr);
 
-    lv_obj_t *label = lv_label_create(lv_scr_act(), NULL);
-    lv_label_set_text(label,"Hello Wolrd!");
+    /*Modify the Label's text*/
+    lv_label_set_text(label1, "Hello\nworld");
+
+    /* Align the Label to the center
+     * NULL means align on parent (which is the screen now)
+     * 0, 0 at the end means an x, y offset after alignment*/
+    lv_obj_align(label1, LV_ALIGN_CENTER, 0, 0);
 }
 
 static void lv_tick_task(void *arg) {

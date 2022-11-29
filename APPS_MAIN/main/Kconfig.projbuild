@@ -1,0 +1,22 @@
+menu "Display Configuration extra"
+
+    config LV_HOR_RES_MAX
+        int "Horizontal res of screen"
+        default 480
+        help
+            Horizontal resolution of screen
+
+    config LV_VER_RES_MAX
+        int "Vertical res of screen"
+        default 320
+        help
+            Vertical resolution of screen
+
+    config SPI_HOST_MAX
+        int "Num of spi_hosts"
+        default 2 if IDF_TARGET_ESP32C3
+        default 3 if IDF_TARGET_ESP32 || IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
+        help
+            Leave at default; Number of spi peripherals in the target
+
+endmenu
