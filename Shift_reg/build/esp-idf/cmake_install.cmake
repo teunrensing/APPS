@@ -123,7 +123,6 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("D:/git/APPS/shift_reg/build/esp-idf/wifi_provisioning/cmake_install.cmake")
   include("D:/git/APPS/shift_reg/build/esp-idf/main/cmake_install.cmake")
   include("D:/git/APPS/shift_reg/build/esp-idf/modules/cmake_install.cmake")
-  include("D:/git/APPS/shift_reg/build/esp-idf/shift_reg/cmake_install.cmake")
 
 endif()
 
