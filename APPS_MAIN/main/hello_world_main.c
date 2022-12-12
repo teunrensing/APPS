@@ -33,6 +33,7 @@
 
 #include "lvgl_helpers.h"
 #include "ui.h"
+#include "shift_reg.h"
 //#include "lv_examples/src/lv_demo_benchmark/lv_demo_benchmark.h"
 
 
@@ -78,6 +79,7 @@ void app_main(void)
         gpio_pad_select_gpio(GPIO_NUM_35);
     gpio_set_direction(GPIO_NUM_35, GPIO_MODE_INPUT);
     xTaskCreatePinnedToCore(guiTask, "gui", 4096*2, NULL, 0, NULL, 1);
+
 }
 
 
@@ -156,13 +158,13 @@ static void guiTask(void *pvParameter) {
 
     disp_drv.draw_buf = &disp_buf;
     lv_disp_drv_register(&disp_drv);
-    lv_indev_drv_t indev_drv;
-    lv_indev_drv_init(&indev_drv);      /*Basic initialization*/
-    indev_drv.type = LV_INDEV_TYPE_ENCODER;
-    indev_drv.read_cb = encoder_read;
-    indev_drv.feedback_cb = send_pressed;
-    lv_indev_t * my_indev = lv_indev_drv_register(&indev_drv);
-    lv_indev_enable(my_indev, 1);
+    // lv_indev_drv_t indev_drv;
+    // lv_indev_drv_init(&indev_drv);      /*Basic initialization*/
+    // indev_drv.type = LV_INDEV_TYPE_ENCODER;
+    // indev_drv.read_cb = encoder_read;
+    // indev_drv.feedback_cb = send_pressed;
+    // lv_indev_t * my_indev = lv_indev_drv_register(&indev_drv);
+    // lv_indev_enable(my_indev, 1);
 
     /* Register an input device when enabled on the menuconfig */
     //lv_indev_drv_t indev_drv;
@@ -182,12 +184,15 @@ static void guiTask(void *pvParameter) {
     ESP_ERROR_CHECK(esp_timer_start_periodic(periodic_timer, LV_TICK_PERIOD_MS * 1000));
     lv_group_t * g = lv_group_create();
     lv_group_set_default(g);
-    lv_indev_set_group(my_indev, g);
+    //lv_indev_set_group(my_indev, g);
     /* Create the demo application */
     //create_demo_application();
     ui_init();
     //vTaskDelay(pdMS_TO_TICKS(1000));
     //lv_event_send(ui_Startup, LV_EVENT_CLICKED, NULL);
+   //    config_shift_register();
+   //vTaskDelay(100/portTICK_RATE_MS);
+   //shift_bit(7,1);
     while (1) {
         /* Delay 1 tick (assumes FreeRTOS tick is 10ms */
         vTaskDelay(pdMS_TO_TICKS(10));

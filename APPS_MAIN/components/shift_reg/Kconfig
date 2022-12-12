@@ -1,0 +1,7 @@
+menu "Shift register"
+    config USE_Shift_register
+        bool "Enable the shift_register" 
+        default n
+        help
+            Enable the shift register component
+endmenu

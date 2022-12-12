@@ -14,8 +14,6 @@
 #include "sdkconfig.h"
 #include "shift_reg.h"
 
-char shift_reg_state[] = {"00000000"};
-
 void config_shift_register(void)
 {
     gpio_config_t io_config = {};
@@ -24,44 +22,24 @@ void config_shift_register(void)
     io_config.pin_bit_mask = ((1ULL << OE) | (1ULL << RCLK) | (1ULL << SER) | (1ULL << SRSCLK));
     io_config.pull_down_en = 0;
     io_config.pull_up_en = 0;
+    gpio_config(&io_config);
     gpio_set_level(OE, 0);
     gpio_set_level(SER, 0);
     gpio_set_level(RCLK, 0);
     gpio_set_level(SRSCLK, 0);
-    gpio_config(&io_config);
 }
-
-void shift_register_update_memory(void)
-{
-    /*Update shift register memory*/
-    for (int i = SR_LENGTH; i >= 0; i--)
-    {
-        gpio_set_level(SER, ((shift_reg_state[i] == '1') ? HIGH : LOW));
-        gpio_set_level(SRSCLK, HIGH);
-        gpio_set_level(SRSCLK, LOW);
+void shift_bit(uint8_t bit, uint8_t val){
+    static uint16_t origval = 0;
+    if(val == 1)
+        origval |= (1 << bit);
+    else
+        origval &= ~(1 << bit);
+    for(uint8_t i=0; i< 8; i++){
+        uint8_t lvl = (origval & ( 1<<i)) != 0;
+        gpio_set_level(SER, lvl);
+        gpio_set_level(SRSCLK, 1);
+        gpio_set_level(SRSCLK, 0);
     }
-}
-
-void shift_register_update_output(void)
-{
-    /*Set array from memory to output*/
-    gpio_set_level(RCLK, HIGH);
-    gpio_set_level(RCLK, LOW);
-}
-
-void shift_register_insert(int position, uint8_t value)
-{
-    /*Array for extended gpio*/
-
-    if (position >= 0 && position <= SR_LENGTH)
-    {
-        if (value == '1')
-        {
-            shift_reg_state[position] = '1';
-        }
-        else
-        {
-            shift_reg_state[position] = '0';
-        }
-    }
+    gpio_set_level(RCLK, 1);
+    gpio_set_level(RCLK, 0);
 }
