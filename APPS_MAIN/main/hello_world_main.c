@@ -34,6 +34,8 @@
 #include "lvgl_helpers.h"
 #include "ui.h"
 #include "shift_reg.h"
+#include "TCA9534.h"
+#include "esp_log.h"
 //#include "lv_examples/src/lv_demo_benchmark/lv_demo_benchmark.h"
 
 
@@ -45,6 +47,15 @@
 # define LV_HOR_RES_MAX 320
 # define LV_VER_RES_MAX 480
 # define SPI_HOST_MAX 3
+
+#define I2C_MASTER_SCL_IO           CONFIG_I2C_MASTER_SCL      /*!< GPIO number used for I2C master clock */
+#define I2C_MASTER_SDA_IO           CONFIG_I2C_MASTER_SDA      /*!< GPIO number used for I2C master data  */
+#define I2C_MASTER_NUM              0                          /*!< I2C master i2c port number, the number of i2c peripheral interfaces available will depend on the chip */
+#define I2C_MASTER_FREQ_HZ          400000                     /*!< I2C master clock frequency */
+#define I2C_MASTER_TX_BUF_DISABLE   0                          /*!< I2C master doesn't need buffer */
+#define I2C_MASTER_RX_BUF_DISABLE   0    
+
+
 /**********************
  *  STATIC PROTOTYPES
  **********************/
@@ -72,22 +83,20 @@ void app_main(void)
             (chip_info.features & CHIP_FEATURE_EMB_FLASH) ? "embedded" : "external");
 
     printf("Minimum free heap size: %d bytes\n", esp_get_minimum_free_heap_size());
-    gpio_pad_select_gpio(GPIO_NUM_32);
-    gpio_set_direction(GPIO_NUM_32, GPIO_MODE_INPUT);
-        gpio_pad_select_gpio(GPIO_NUM_34);
+    gpio_pad_select_gpio(GPIO_NUM_33);
+    gpio_set_direction(GPIO_NUM_33, GPIO_MODE_INPUT);
+    gpio_pad_select_gpio(GPIO_NUM_34);
     gpio_set_direction(GPIO_NUM_34, GPIO_MODE_INPUT);
-        gpio_pad_select_gpio(GPIO_NUM_35);
-    gpio_set_direction(GPIO_NUM_35, GPIO_MODE_INPUT);
     xTaskCreatePinnedToCore(guiTask, "gui", 4096*2, NULL, 0, NULL, 1);
 
 }
 
 
-
+TCA9534_IO_EXP IO_EXP1;
 SemaphoreHandle_t xGuiSemaphore;
 
 int enc_get_new_moves(){
-    bool turnstate = gpio_get_level(GPIO_NUM_35);
+    bool turnstate = gpio_get_level(GPIO_NUM_33);
     bool dir = gpio_get_level(GPIO_NUM_34);
     if(turnstate && dir) return 1;
     else if(turnstate && !dir) return -1;
@@ -96,18 +105,18 @@ int enc_get_new_moves(){
 
 bool send_pressed(lv_indev_drv_t * drv, lv_indev_data_t*data){
     //if(data->state == LV_INDEV_STATE_PR)
-        //lv_event_send(ui_Startup, LV_EVENT_CLICKED, NULL);
+    //    lv_event_send(ui_Startup, LV_EVENT_CLICKED, NULL);
     return false;
 }
 
 bool enc_pressed(){
-    return !gpio_get_level(GPIO_NUM_32);
+    return get_io_pin_input_status(&IO_EXP1, TCA9534_IO1);
 }
 
 bool encoder_read(lv_indev_drv_t * drv, lv_indev_data_t*data){
   data->enc_diff = enc_get_new_moves();
   //printf("Reading encoder! \n");
-  if(!enc_pressed()){
+  if(enc_pressed()){
       data->state = LV_INDEV_STATE_PR;
       lv_event_send(ui_Startup, LV_EVENT_CLICKED, NULL);
   } 
@@ -116,6 +125,19 @@ bool encoder_read(lv_indev_drv_t * drv, lv_indev_data_t*data){
   return false; /*No buffering now so no more data read*/
 }
 
+static esp_err_t i2c_master_init(i2c_config_t *conf) {
+    int i2c_master_port = I2C_MASTER_NUM;
+
+    conf->mode = I2C_MODE_MASTER;
+    conf->master.clk_speed = I2C_MASTER_FREQ_HZ;
+    conf->sda_io_num = 21;
+    conf->scl_io_num = 22;
+    conf->sda_pullup_en = GPIO_PULLUP_ENABLE;
+    conf->scl_pullup_en = GPIO_PULLUP_ENABLE;
+    i2c_param_config(i2c_master_port, conf);
+
+    return i2c_driver_install(i2c_master_port, conf->mode, I2C_MASTER_RX_BUF_DISABLE, I2C_MASTER_TX_BUF_DISABLE, 0);
+}
 
 
 static void guiTask(void *pvParameter) {
@@ -158,18 +180,18 @@ static void guiTask(void *pvParameter) {
 
     disp_drv.draw_buf = &disp_buf;
     lv_disp_drv_register(&disp_drv);
-    // lv_indev_drv_t indev_drv;
-    // lv_indev_drv_init(&indev_drv);      /*Basic initialization*/
-    // indev_drv.type = LV_INDEV_TYPE_ENCODER;
-    // indev_drv.read_cb = encoder_read;
-    // indev_drv.feedback_cb = send_pressed;
-    // lv_indev_t * my_indev = lv_indev_drv_register(&indev_drv);
-    // lv_indev_enable(my_indev, 1);
+     lv_indev_drv_t indev_drv;
+     lv_indev_drv_init(&indev_drv);      /*Basic initialization*/
+     indev_drv.type = LV_INDEV_TYPE_ENCODER;
+     indev_drv.read_cb = encoder_read;
+     indev_drv.feedback_cb = send_pressed;
+     lv_indev_t * my_indev = lv_indev_drv_register(&indev_drv);
+     lv_indev_enable(my_indev, 1);
 
     /* Register an input device when enabled on the menuconfig */
     //lv_indev_drv_t indev_drv;
     //lv_indev_drv_init(&indev_drv);
-    //indev_drv.read_cb = touch_driver_read;
+    ////indev_drv.read_cb = touch_driver_read;
     //indev_drv.type = LV_INDEV_TYPE_POINTER;
     //lv_indev_drv_register(&indev_drv);
 
@@ -184,9 +206,22 @@ static void guiTask(void *pvParameter) {
     ESP_ERROR_CHECK(esp_timer_start_periodic(periodic_timer, LV_TICK_PERIOD_MS * 1000));
     lv_group_t * g = lv_group_create();
     lv_group_set_default(g);
-    //lv_indev_set_group(my_indev, g);
+    lv_indev_set_group(my_indev, g);
     /* Create the demo application */
     //create_demo_application();
+     esp_err_t status = i2c_master_init(&IO_EXP1.i2c_conf);
+
+    if (status == ESP_OK) {
+        ESP_LOGI(TAG, "I2C initialized successfully");
+        IO_EXP1.I2C_ADDR = 0b0100000;
+        IO_EXP1.i2c_master_port = I2C_MASTER_NUM;
+        IO_EXP1.interrupt_pin = GPIO_NUM_35;
+        //IO_EXP1.interrupt_task = &testTaskp;
+
+        //setup_tca9534_interrupt_handler(&IO_EXP1);
+        //set_tca9534_io_pin_direction(&IO_EXP1, TCA9534_IO0, TCA9534_INPUT);
+        set_all_tca9534_io_pins_direction(&IO_EXP1, TCA9534_INPUT);
+    }
     ui_init();
     //vTaskDelay(pdMS_TO_TICKS(1000));
     //lv_event_send(ui_Startup, LV_EVENT_CLICKED, NULL);
