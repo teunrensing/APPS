@@ -23,7 +23,7 @@
 #include "freertos/semphr.h"
 #include "esp_system.h"
 #include "driver/gpio.h"
-
+#include "driver/i2c.h"
 /* Littlevgl specific */
 #ifdef LV_LVGL_H_INCLUDE_SIMPLE
 #include "lvgl.h"
@@ -33,10 +33,8 @@
 
 #include "lvgl_helpers.h"
 #include "ui.h"
-#include "shift_reg.h"
 #include "TCA9534.h"
 #include "esp_log.h"
-//#include "lv_examples/src/lv_demo_benchmark/lv_demo_benchmark.h"
 
 
 /*********************
@@ -61,68 +59,15 @@
  **********************/
 static void lv_tick_task(void *arg);
 static void guiTask(void *pvParameter);
-static void create_demo_application(void);
-
-
-void app_main(void)
-{
-    printf("Hello world!\n");
-
-    /* Print chip information */
-    esp_chip_info_t chip_info;
-    esp_chip_info(&chip_info);
-    printf("This is %s chip with %d CPU core(s), WiFi%s%s, ",
-            CONFIG_IDF_TARGET,
-            chip_info.cores,
-            (chip_info.features & CHIP_FEATURE_BT) ? "/BT" : "",
-            (chip_info.features & CHIP_FEATURE_BLE) ? "/BLE" : "");
-
-    printf("silicon revision %d, ", chip_info.revision);
-
-    printf("%dMB %s flash\n", spi_flash_get_chip_size() / (1024 * 1024),
-            (chip_info.features & CHIP_FEATURE_EMB_FLASH) ? "embedded" : "external");
-
-    printf("Minimum free heap size: %d bytes\n", esp_get_minimum_free_heap_size());
-    gpio_pad_select_gpio(GPIO_NUM_33);
-    gpio_set_direction(GPIO_NUM_33, GPIO_MODE_INPUT);
-    gpio_pad_select_gpio(GPIO_NUM_34);
-    gpio_set_direction(GPIO_NUM_34, GPIO_MODE_INPUT);
-    xTaskCreatePinnedToCore(guiTask, "gui", 4096*2, NULL, 0, NULL, 1);
-
-}
-
 
 TCA9534_IO_EXP IO_EXP1;
 SemaphoreHandle_t xGuiSemaphore;
 
-int enc_get_new_moves(){
-    bool turnstate = gpio_get_level(GPIO_NUM_33);
-    bool dir = gpio_get_level(GPIO_NUM_34);
-    if(turnstate && dir) return 1;
-    else if(turnstate && !dir) return -1;
-    else return 0;
-}
 
-bool send_pressed(lv_indev_drv_t * drv, lv_indev_data_t*data){
-    //if(data->state == LV_INDEV_STATE_PR)
-    //    lv_event_send(ui_Startup, LV_EVENT_CLICKED, NULL);
-    return false;
-}
+void app_main(void)
+{
+    xTaskCreatePinnedToCore(guiTask, "gui", 4096*2, NULL, 0, NULL, 1);
 
-bool enc_pressed(){
-    return get_io_pin_input_status(&IO_EXP1, TCA9534_IO1);
-}
-
-bool encoder_read(lv_indev_drv_t * drv, lv_indev_data_t*data){
-  data->enc_diff = enc_get_new_moves();
-  //printf("Reading encoder! \n");
-  if(enc_pressed()){
-      data->state = LV_INDEV_STATE_PR;
-      lv_event_send(ui_Startup, LV_EVENT_CLICKED, NULL);
-  } 
-  else data->state = LV_INDEV_STATE_REL;
-  
-  return false; /*No buffering now so no more data read*/
 }
 
 static esp_err_t i2c_master_init(i2c_config_t *conf) {
@@ -139,12 +84,43 @@ static esp_err_t i2c_master_init(i2c_config_t *conf) {
     return i2c_driver_install(i2c_master_port, conf->mode, I2C_MASTER_RX_BUF_DISABLE, I2C_MASTER_TX_BUF_DISABLE, 0);
 }
 
+void initialize_io_expander(){
+    esp_err_t status = i2c_master_init(&IO_EXP1.i2c_conf);
+    if (status == ESP_OK) {
+        ESP_LOGI(TAG, "I2C initialized successfully");
+        IO_EXP1.I2C_ADDR = 0b0100000;
+        IO_EXP1.i2c_master_port = I2C_MASTER_NUM;
+        IO_EXP1.interrupt_pin = GPIO_NUM_35;
+        set_all_tca9534_io_pins_direction(&IO_EXP1, TCA9534_INPUT);
+    }
+}
+
+int enc_get_new_moves(){
+    bool turnstate = gpio_get_level(GPIO_NUM_33);
+    bool dir = gpio_get_level(GPIO_NUM_34);
+    if(turnstate && dir) return 1;
+    else if(turnstate && !dir) return -1;
+    else return 0;
+}
+
+bool enc_pressed(){
+    return get_io_pin_input_status(&IO_EXP1, TCA9534_IO1);
+}
+
+bool encoder_read(lv_indev_drv_t * drv, lv_indev_data_t*data){
+  data->enc_diff = enc_get_new_moves();
+  if(enc_pressed()){
+      data->state = LV_INDEV_STATE_PR;
+      lv_event_send(ui_Startup, LV_EVENT_CLICKED, NULL);
+  } 
+  else data->state = LV_INDEV_STATE_REL;
+  return false; 
+}
 
 static void guiTask(void *pvParameter) {
 
     (void) pvParameter;
     xGuiSemaphore = xSemaphoreCreateMutex();
-
     lv_init();
 
     /* Initialize SPI or I2C bus used by the drivers */
@@ -170,9 +146,6 @@ static void guiTask(void *pvParameter) {
     lv_disp_drv_init(&disp_drv);
     disp_drv.flush_cb = disp_driver_flush;
 
-    /* When using a monochrome display we need to register the callbacks:
-     * - rounder_cb
-     * - set_px_cb */
     disp_drv.hor_res = 320;
     disp_drv.ver_res=480;
     disp_drv.physical_hor_res = -1;
@@ -180,21 +153,17 @@ static void guiTask(void *pvParameter) {
 
     disp_drv.draw_buf = &disp_buf;
     lv_disp_drv_register(&disp_drv);
-     lv_indev_drv_t indev_drv;
-     lv_indev_drv_init(&indev_drv);      /*Basic initialization*/
-     indev_drv.type = LV_INDEV_TYPE_ENCODER;
-     indev_drv.read_cb = encoder_read;
-     indev_drv.feedback_cb = send_pressed;
-     lv_indev_t * my_indev = lv_indev_drv_register(&indev_drv);
-     lv_indev_enable(my_indev, 1);
 
-    /* Register an input device when enabled on the menuconfig */
-    //lv_indev_drv_t indev_drv;
-    //lv_indev_drv_init(&indev_drv);
-    ////indev_drv.read_cb = touch_driver_read;
-    //indev_drv.type = LV_INDEV_TYPE_POINTER;
-    //lv_indev_drv_register(&indev_drv);
+    /* initialize io expander needed for encoder*/
+    initialize_io_expander();
 
+    /* Initialize encoder*/
+    lv_indev_drv_t indev_drv;
+    lv_indev_drv_init(&indev_drv);
+    indev_drv.type = LV_INDEV_TYPE_ENCODER;
+    indev_drv.read_cb = (void*) encoder_read;
+    lv_indev_t * my_indev = lv_indev_drv_register(&indev_drv);
+    lv_indev_enable(my_indev, 1);
 
     /* Create and start a periodic timer interrupt to call lv_tick_inc */
     const esp_timer_create_args_t periodic_timer_args = {
@@ -204,30 +173,7 @@ static void guiTask(void *pvParameter) {
     esp_timer_handle_t periodic_timer;
     ESP_ERROR_CHECK(esp_timer_create(&periodic_timer_args, &periodic_timer));
     ESP_ERROR_CHECK(esp_timer_start_periodic(periodic_timer, LV_TICK_PERIOD_MS * 1000));
-    lv_group_t * g = lv_group_create();
-    lv_group_set_default(g);
-    lv_indev_set_group(my_indev, g);
-    /* Create the demo application */
-    //create_demo_application();
-     esp_err_t status = i2c_master_init(&IO_EXP1.i2c_conf);
-
-    if (status == ESP_OK) {
-        ESP_LOGI(TAG, "I2C initialized successfully");
-        IO_EXP1.I2C_ADDR = 0b0100000;
-        IO_EXP1.i2c_master_port = I2C_MASTER_NUM;
-        IO_EXP1.interrupt_pin = GPIO_NUM_35;
-        //IO_EXP1.interrupt_task = &testTaskp;
-
-        //setup_tca9534_interrupt_handler(&IO_EXP1);
-        //set_tca9534_io_pin_direction(&IO_EXP1, TCA9534_IO0, TCA9534_INPUT);
-        set_all_tca9534_io_pins_direction(&IO_EXP1, TCA9534_INPUT);
-    }
     ui_init();
-    //vTaskDelay(pdMS_TO_TICKS(1000));
-    //lv_event_send(ui_Startup, LV_EVENT_CLICKED, NULL);
-   //    config_shift_register();
-   //vTaskDelay(100/portTICK_RATE_MS);
-   //shift_bit(7,1);
     while (1) {
         /* Delay 1 tick (assumes FreeRTOS tick is 10ms */
         vTaskDelay(pdMS_TO_TICKS(10));
@@ -244,30 +190,6 @@ static void guiTask(void *pvParameter) {
     free(buf2);
 
     vTaskDelete(NULL);
-}
-
-static void create_demo_application(void)
-{
-    /* When using a monochrome display we only show "Hello World" centered on the
-     * screen */
-
-    /* Otherwise we show the selected demo */
-
-    //lv_demo_widgets();
-
-    /* use a pretty small demo for monochrome displays */
-    /* Get the current screen  */
-    lv_obj_t * scr = lv_disp_get_scr_act(NULL);
-    /*Create a Label on the currently active screen*/
-    lv_obj_t * label1 =  lv_label_create(scr);
-
-    /*Modify the Label's text*/
-    lv_label_set_text(label1, "Hello\nworld");
-
-    /* Align the Label to the center
-     * NULL means align on parent (which is the screen now)
-     * 0, 0 at the end means an x, y offset after alignment*/
-    lv_obj_align(label1, LV_ALIGN_CENTER, 0, 0);
 }
 
 static void lv_tick_task(void *arg) {
