@@ -1,0 +1,7 @@
+menu "Encoder driver"
+    config USE_Encoder
+        bool "Enable the encoder driver" 
+        default n
+        help
+            Enable the shift register component
+endmenu

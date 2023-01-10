@@ -1249,6 +1249,12 @@ CONFIG_WPA_MBEDTLS_CRYPTO=y
 # end of Supplicant
 
 #
+# Encoder driver
+#
+# CONFIG_USE_Encoder is not set
+# end of Encoder driver
+
+#
 # LVGL configuration
 #
 CONFIG_LV_CONF_SKIP=y

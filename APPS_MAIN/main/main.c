@@ -1,11 +1,3 @@
-/* Hello World Example
-
-   This example code is in the Public Domain (or CC0 licensed, at your option.)
-
-   Unless required by applicable law or agreed to in writing, this
-   software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-   CONDITIONS OF ANY KIND, either express or implied.
-*/
 #include <stdio.h>
 #include "sdkconfig.h"
 #include "freertos/FreeRTOS.h"
@@ -34,6 +26,7 @@
 #include "lvgl_helpers.h"
 #include "ui.h"
 #include "TCA9534.h"
+#include "encoder_driver.h"
 #include "esp_log.h"
 
 
@@ -60,9 +53,9 @@
 static void lv_tick_task(void *arg);
 static void guiTask(void *pvParameter);
 
-TCA9534_IO_EXP IO_EXP1;
-SemaphoreHandle_t xGuiSemaphore;
 
+SemaphoreHandle_t xGuiSemaphore;
+encoder_drv_t encoder;
 
 void app_main(void)
 {
@@ -84,14 +77,14 @@ static esp_err_t i2c_master_init(i2c_config_t *conf) {
     return i2c_driver_install(i2c_master_port, conf->mode, I2C_MASTER_RX_BUF_DISABLE, I2C_MASTER_TX_BUF_DISABLE, 0);
 }
 
-void initialize_io_expander(){
-    esp_err_t status = i2c_master_init(&IO_EXP1.i2c_conf);
+void initialize_io_expander(TCA9534_IO_EXP *IO_EXP){
+    esp_err_t status = i2c_master_init(&(IO_EXP->i2c_conf));
     if (status == ESP_OK) {
         ESP_LOGI(TAG, "I2C initialized successfully");
-        IO_EXP1.I2C_ADDR = 0b0100000;
-        IO_EXP1.i2c_master_port = I2C_MASTER_NUM;
-        IO_EXP1.interrupt_pin = GPIO_NUM_35;
-        set_all_tca9534_io_pins_direction(&IO_EXP1, TCA9534_INPUT);
+        IO_EXP->I2C_ADDR = 0b0100000;
+        IO_EXP->i2c_master_port = I2C_MASTER_NUM;
+        IO_EXP->interrupt_pin = GPIO_NUM_35;
+        set_all_tca9534_io_pins_direction(IO_EXP, TCA9534_INPUT);
     }
 }
 
@@ -103,17 +96,15 @@ int enc_get_new_moves(){
     else return 0;
 }
 
-bool enc_pressed(){
-    return get_io_pin_input_status(&IO_EXP1, TCA9534_IO1);
-}
 
 bool encoder_read(lv_indev_drv_t * drv, lv_indev_data_t*data){
-  data->enc_diff = enc_get_new_moves();
-  if(enc_pressed()){
+  data->enc_diff = get_encoder_count(&encoder);
+  if(get_encoder_btn_status(&encoder)){
       data->state = LV_INDEV_STATE_PR;
       lv_event_send(ui_Startup, LV_EVENT_CLICKED, NULL);
   } 
   else data->state = LV_INDEV_STATE_REL;
+  reset_encoder_count(&encoder);
   return false; 
 }
 
@@ -155,8 +146,14 @@ static void guiTask(void *pvParameter) {
     lv_disp_drv_register(&disp_drv);
 
     /* initialize io expander needed for encoder*/
-    initialize_io_expander();
-
+    TCA9534_IO_EXP IO_EXP;
+    initialize_io_expander(&IO_EXP);
+    /* initialize encoder driver */
+    encoder.io_exp_handle = &IO_EXP;
+    encoder.encoder_clk_pin = GPIO_NUM_33;
+    encoder.encoder_dir_pin = GPIO_NUM_34;
+    config_encoder(&encoder);
+    register_encoder_isr(&encoder);
     /* Initialize encoder*/
     lv_indev_drv_t indev_drv;
     lv_indev_drv_init(&indev_drv);
