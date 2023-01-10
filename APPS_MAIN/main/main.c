@@ -34,10 +34,11 @@
  *      DEFINES
  *********************/
 #define TAG "demo"
+#define LV_TASK_STACK_MEM 8196
 #define LV_TICK_PERIOD_MS 1
-# define LV_HOR_RES_MAX 320
-# define LV_VER_RES_MAX 480
-# define SPI_HOST_MAX 3
+#define LV_HOR_RES_MAX 320
+#define LV_VER_RES_MAX 480
+#define SPI_HOST_MAX 3
 
 #define I2C_MASTER_SCL_IO           CONFIG_I2C_MASTER_SCL      /*!< GPIO number used for I2C master clock */
 #define I2C_MASTER_SDA_IO           CONFIG_I2C_MASTER_SDA      /*!< GPIO number used for I2C master data  */
@@ -45,7 +46,7 @@
 #define I2C_MASTER_FREQ_HZ          400000                     /*!< I2C master clock frequency */
 #define I2C_MASTER_TX_BUF_DISABLE   0                          /*!< I2C master doesn't need buffer */
 #define I2C_MASTER_RX_BUF_DISABLE   0    
-
+#define TCA9534_NO1_I2C_ADDR        0b0100000
 
 /**********************
  *  STATIC PROTOTYPES
@@ -53,13 +54,15 @@
 static void lv_tick_task(void *arg);
 static void guiTask(void *pvParameter);
 
-
+/**********************
+*   HANDLES
+***********************/
 SemaphoreHandle_t xGuiSemaphore;
 encoder_drv_t encoder;
 
 void app_main(void)
 {
-    xTaskCreatePinnedToCore(guiTask, "gui", 4096*2, NULL, 0, NULL, 1);
+    xTaskCreatePinnedToCore(guiTask, "gui", LV_TASK_STACK_MEM, NULL, 0, NULL, 1);
 
 }
 
@@ -68,8 +71,8 @@ static esp_err_t i2c_master_init(i2c_config_t *conf) {
 
     conf->mode = I2C_MODE_MASTER;
     conf->master.clk_speed = I2C_MASTER_FREQ_HZ;
-    conf->sda_io_num = 21;
-    conf->scl_io_num = 22;
+    conf->sda_io_num = GPIO_NUM_21;
+    conf->scl_io_num = GPIO_NUM_22;
     conf->sda_pullup_en = GPIO_PULLUP_ENABLE;
     conf->scl_pullup_en = GPIO_PULLUP_ENABLE;
     i2c_param_config(i2c_master_port, conf);
@@ -81,21 +84,12 @@ void initialize_io_expander(TCA9534_IO_EXP *IO_EXP){
     esp_err_t status = i2c_master_init(&(IO_EXP->i2c_conf));
     if (status == ESP_OK) {
         ESP_LOGI(TAG, "I2C initialized successfully");
-        IO_EXP->I2C_ADDR = 0b0100000;
+        IO_EXP->I2C_ADDR = TCA9534_NO1_I2C_ADDR;
         IO_EXP->i2c_master_port = I2C_MASTER_NUM;
         IO_EXP->interrupt_pin = GPIO_NUM_35;
         set_all_tca9534_io_pins_direction(IO_EXP, TCA9534_INPUT);
     }
 }
-
-int enc_get_new_moves(){
-    bool turnstate = gpio_get_level(GPIO_NUM_33);
-    bool dir = gpio_get_level(GPIO_NUM_34);
-    if(turnstate && dir) return 1;
-    else if(turnstate && !dir) return -1;
-    else return 0;
-}
-
 
 bool encoder_read(lv_indev_drv_t * drv, lv_indev_data_t*data){
   data->enc_diff = get_encoder_count(&encoder);
@@ -137,9 +131,9 @@ static void guiTask(void *pvParameter) {
     lv_disp_drv_init(&disp_drv);
     disp_drv.flush_cb = disp_driver_flush;
 
-    disp_drv.hor_res = 320;
-    disp_drv.ver_res=480;
-    disp_drv.physical_hor_res = -1;
+    disp_drv.hor_res = LV_HOR_RES_MAX;
+    disp_drv.ver_res= LV_VER_RES_MAX;
+    disp_drv.physical_hor_res = -1; //-1 because we don't want any scaling :p
     disp_drv.physical_ver_res = -1;
 
     disp_drv.draw_buf = &disp_buf;
@@ -148,19 +142,21 @@ static void guiTask(void *pvParameter) {
     /* initialize io expander needed for encoder*/
     TCA9534_IO_EXP IO_EXP;
     initialize_io_expander(&IO_EXP);
+
     /* initialize encoder driver */
     encoder.io_exp_handle = &IO_EXP;
     encoder.encoder_clk_pin = GPIO_NUM_33;
     encoder.encoder_dir_pin = GPIO_NUM_34;
     config_encoder(&encoder);
     register_encoder_isr(&encoder);
+
     /* Initialize encoder*/
     lv_indev_drv_t indev_drv;
     lv_indev_drv_init(&indev_drv);
     indev_drv.type = LV_INDEV_TYPE_ENCODER;
     indev_drv.read_cb = (void*) encoder_read;
     lv_indev_t * my_indev = lv_indev_drv_register(&indev_drv);
-    lv_indev_enable(my_indev, 1);
+    lv_indev_enable(my_indev, true);
 
     /* Create and start a periodic timer interrupt to call lv_tick_inc */
     const esp_timer_create_args_t periodic_timer_args = {
