@@ -10,7 +10,6 @@
 #include "lvgl_helpers.h"
 #include "ui.h"
 
-#include "esp_log.h"
 #include "TCA9534.h"
 #include "encoder_driver.h"
 #include "gui_helper.h"
@@ -22,31 +21,6 @@ SemaphoreHandle_t xGuiSemaphore;
 encoder_drv_t encoder;
 
 #define TAG "GUI"
-
-static esp_err_t i2c_master_init(i2c_config_t *conf) {
-    int i2c_master_port = I2C_MASTER_NUM;
-
-    conf->mode = I2C_MODE_MASTER;
-    conf->master.clk_speed = I2C_MASTER_FREQ_HZ;
-    conf->sda_io_num = GPIO_NUM_21;
-    conf->scl_io_num = GPIO_NUM_22;
-    conf->sda_pullup_en = GPIO_PULLUP_ENABLE;
-    conf->scl_pullup_en = GPIO_PULLUP_ENABLE;
-    i2c_param_config(i2c_master_port, conf);
-
-    return i2c_driver_install(i2c_master_port, conf->mode, I2C_MASTER_RX_BUF_DISABLE, I2C_MASTER_TX_BUF_DISABLE, 0);
-}
-
-void initialize_io_expander(TCA9534_IO_EXP *IO_EXP){
-    esp_err_t status = i2c_master_init(&(IO_EXP->i2c_conf));
-    if (status == ESP_OK) {
-        ESP_LOGI(TAG, "I2C initialized successfully");
-        IO_EXP->I2C_ADDR = TCA9534_NO1_I2C_ADDR;
-        IO_EXP->i2c_master_port = I2C_MASTER_NUM;
-        IO_EXP->interrupt_pin = GPIO_NUM_35;
-        set_all_tca9534_io_pins_direction(IO_EXP, TCA9534_INPUT);
-    }
-}
 
 bool encoder_read(lv_indev_drv_t * drv, lv_indev_data_t*data){
   data->enc_diff = get_encoder_count(&encoder);
@@ -67,7 +41,7 @@ static void lv_tick_task(void *arg) {
 
 void guiTask(void *pvParameter) {
 
-    (void) pvParameter;
+    external_gui_peripheral_handles* peripheral_handles = (external_gui_peripheral_handles*) pvParameter;
     xGuiSemaphore = xSemaphoreCreateMutex();
     lv_init();
 
@@ -102,12 +76,9 @@ void guiTask(void *pvParameter) {
     disp_drv.draw_buf = &disp_buf;
     lv_disp_drv_register(&disp_drv);
 
-    /* initialize io expander needed for encoder*/
-    TCA9534_IO_EXP IO_EXP;
-    initialize_io_expander(&IO_EXP);
 
     /* initialize encoder driver */
-    encoder.io_exp_handle = &IO_EXP;
+    encoder.io_exp_handle = peripheral_handles->IO_EXP1;
     encoder.encoder_clk_pin = GPIO_NUM_33;
     encoder.encoder_dir_pin = GPIO_NUM_34;
     config_encoder(&encoder);
