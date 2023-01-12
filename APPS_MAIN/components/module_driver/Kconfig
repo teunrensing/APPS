@@ -1,0 +1,358 @@
+menu "Module Slots"
+    config ONE_MODULE_SLOT
+        bool
+        help 
+            One module slot used
+    config TWO_MODULE_SLOTS
+        bool 
+        help
+            Two module slots used
+            
+    config USE_Module_slots
+        bool "Enable the module_driver" 
+        default y
+        help
+            Enable the module driver
+    choice MODULE_DRIVER_NUMBER_OF_SLOTS
+        prompt "Select number of module slots"
+        default MODULE_DRIVER_TWO_SLOTS
+        help
+           Select the amount of module drivers to instantiate
+        config MODULE_DRIVER_ONE_SLOT
+            bool "1"
+            select ONE_MODULE_SLOT
+        config MODULE_DRIVER_TWO_SLOTS
+            bool "2"
+            select TWO_MODULE_SLOTS
+    endchoice
+    config MODULE_SLOTS_SHARE_I2C_BUS
+        bool "The module slots share the I2C bus"
+        depends on TWO_MODULE_SLOTS
+        default y
+        help
+            When using two modules, the I2C bus will be shared between these two modules if option checked.
+    config MODULE_SLOTS_I2C_BUS_MAPPING_SCL
+        int "SCL pin"
+        depends on MODULE_SLOTS_SHARE_I2C_BUS
+        help
+            The scl pin for the shared I2C bus
+        default 18
+    config MODULE_SLOTS_I2C_BUS_MAPPING_SDA
+        int "SDA pin"
+        depends on MODULE_SLOTS_SHARE_I2C_BUS
+        help
+           The sda pin for the shared I2C bus
+        default 19
+    menu "MODULE SLOT 1 Pin mapping"
+        visible if USE_Module_slots
+    config MODULE_1_STATUS_IS_PHYSICAL_PIN
+        bool
+        help 
+            The status pin of MODULE 1 is a physical pin
+    config MODULE_1_STATUS_IS_SR_PIN
+        bool
+        help 
+            The status pin of MODULE 1 is connected through a shift register
+    config MODULE_1_TTL1_IS_PHYSICAL_PIN
+        bool
+        help 
+            The TTL1 pin of MODULE 1 is a physical pin
+    config MODULE_1_TTL1_IS_SR_PIN
+        bool
+        help 
+            The TTL1 pin of MODULE 1 is connected through a shift register
+            
+    config MODULE_1_TTL2_IS_PHYSICAL_PIN
+        bool
+        help 
+            The TTL2 pin of MODULE 1 is a physical pin
+    config MODULE_1_TTL2_IS_SR_PIN
+        bool
+        help 
+            The TTL2 pin of MODULE 1 is connected through a shift register
+    config MODULE_1_TTL3_IS_PHYSICAL_PIN
+        bool
+        help 
+            The TTL3 pin of MODULE 1 is a physical pin
+    config MODULE_1_TTL3_IS_IO_EXP_PIN
+        bool
+        help 
+            The TTL3 pin of MODULE 1 is connected through an IO expander
+    config MODULE_SLOT_1_PWM_CH0
+        int "Module slot 1 PWM kanaal 0 pin"
+        default 0
+        help
+            See schematic for the pin location
+    config MODULE_SLOT_1_PWM_CH1
+        int "Module slot 1 PWM kanaal 1 pin"
+        default 2
+        help
+            See schematic for the pin location
+
+    choice MODULE_1_STATUS_PIN_TYPE
+        prompt "Select the way the status pin of module 2 is connected"
+        default MODULE_1_STATUS_IS_SR
+            help
+                Select the amount of module drivers to instantiate
+        config MODULE_1_STATUS_IS_PHYSICAL
+            bool "Status is a physical pin"
+            select MODULE_1_STATUS_IS_PHYSICAL_PIN
+        config MODULE_1_STATUS_IS_SR
+            bool "Status is connected through a shift register"
+            select MODULE_1_STATUS_IS_SR_PIN
+    endchoice
+    
+    config MODULE_SLOT_1_STATUS_SR
+        int "Module slot 1 Status SR Pin"
+        depends on MODULE_1_STATUS_IS_SR_PIN
+        default 2
+        help 
+            The pin location on the shift register QA = 0, QH = 7
+    
+    config MODULE_SLOT_1_STATUS_PHYSICAL
+        int "Module slot 1 Status Physical Pin"
+        depends on MODULE_1_STATUS_IS_PHYSICAL_PIN
+        default 12
+        help 
+           The physical pin location on the esp. See schematic for the exact location
+
+    choice MODULE_1_TTL1_PIN_TYPE
+        prompt "Select the way the TTL1 pin of module 1 is connected"
+        default MODULE_1_TTL1_IS_SR
+        help
+            Select the amount of module drivers to instantiate
+        config MODULE_1_TTL1_IS_PHYSICAL
+            bool "TTL1 is a physical pin"
+            select MODULE_1_TTL1_IS_PHYSICAL_PIN
+        config MODULE_1_TTL1_IS_SR
+            bool "TTL1 is connected through a shift register"
+            select MODULE_1_TTL1_IS_SR_PIN
+    endchoice
+        
+    config MODULE_SLOT_1_TTL1_SR
+        int "Module slot 1 TTL1 SR Pin"
+        depends on MODULE_1_TTL1_IS_SR_PIN
+        default 1
+        help 
+            The pin location on the shift register QA = 0, QH = 7
+        
+    config MODULE_SLOT_1_TTL1_PHYSICAL
+        int "Module slot 1 TTL1 Physical Pin"
+        depends on MODULE_1_TTL1_IS_PHYSICAL_PIN
+        default 12
+        help 
+           The physical pin location on the esp. See schematic for the exact location
+    
+    
+    choice MODULE_1_TTL2_PIN_TYPE
+        prompt "Select the way the TTL2 pin of module 1 is connected"
+        default MODULE_1_TTL2_IS_SR
+        help
+            Select the amount of module drivers to instantiate
+        config MODULE_1_TTL2_IS_PHYSICAL
+            bool "TTL2 is a physical pin"
+            select MODULE_1_TTL2_IS_PHYSICAL_PIN
+        config MODULE_1_TTL2_IS_SR
+            bool "TTL2 is connected through a shift register"
+            select MODULE_1_TTL2_IS_SR_PIN
+    endchoice
+        
+    config MODULE_SLOT_1_TTL2_SR
+        int "Module slot 1 TTL2 SR Pin"
+        depends on MODULE_1_TTL2_IS_SR_PIN
+        default 3
+        help 
+            The pin location on the shift register QA = 0, QH = 7
+        
+    config MODULE_SLOT_1_TTL2_PHYSICAL
+        int "Module slot 1 TTL2 Physical Pin"
+        depends on MODULE_1_TTL2_IS_PHYSICAL_PIN
+        default 12
+        help 
+           The physical pin location on the esp. See schematic for the exact location 
+    
+    choice MODULE_1_TTL3_PIN_TYPE
+        prompt "Select the way the TTL3 pin of module 1 is connected"
+        default MODULE_1_TTL3_IS_IO_EXP
+        help
+            Select the amount of module drivers to instantiate
+        config MODULE_1_TTL3_IS_PHYSICAL
+            bool "TTL3 is a physical pin"
+            select MODULE_1_TTL3_IS_PHYSICAL_PIN
+        config MODULE_1_TTL3_IS_IO_EXP
+            bool "TTL3 is connected through an IO expander"
+            select MODULE_1_TTL3_IS_IO_EXP_PIN
+    endchoice
+        
+    config MODULE_SLOT_1_TTL3_IO_EXP
+        int "Module slot 1 TTL3 IO Expander Pin"
+        depends on MODULE_1_TTL3_IS_IO_EXP_PIN
+        default 2
+        help 
+            The pin location on the io expander P0 = 0, P7 = 7
+        
+    config MODULE_SLOT_1_TTL3_PHYSICAL
+        int "Module slot 1 TTL3 Physical Pin"
+        depends on MODULE_1_TTL3_IS_PHYSICAL_PIN
+        default 12
+        help 
+           The physical pin location on the esp. See schematic for the exact location 
+    endmenu
+
+    menu "MODULE SLOT 2 Pin Mapping"
+        visible if TWO_MODULE_SLOTS
+    config MODULE_2_STATUS_IS_PHYSICAL_PIN
+        bool
+        help 
+            The status pin of MODULE 2 is a physical pin
+
+    config MODULE_2_STATUS_IS_SR_PIN
+        bool
+        help 
+            The status pin of MODULE 2 is connected through a shift register
+    config MODULE_2_TTL1_IS_PHYSICAL_PIN
+        bool
+        help 
+            The TTL1 pin of MODULE 2 is a physical pin
+    config MODULE_2_TTL1_IS_SR_PIN
+        bool
+        help 
+            The TTL1 pin of MODULE 2 is connected through a shift register
+            
+    config MODULE_2_TTL2_IS_PHYSICAL_PIN
+        bool
+        help 
+            The TTL2 pin of MODULE 2 is a physical pin
+    config MODULE_2_TTL2_IS_SR_PIN
+        bool
+        help 
+            The TTL2 pin of MODULE 2 is connected through a shift register
+    config MODULE_2_TTL3_IS_PHYSICAL_PIN
+        bool
+        help 
+            The TTL3 pin of MODULE 2 is a physical pin
+    config MODULE_2_TTL3_IS_IO_EXP_PIN
+        bool
+        help 
+            The TTL3 pin of MODULE 2 is connected through an io expander
+    config MODULE_SLOT_2_PWM_CH0
+        int "Module slot 2 PWM kanaal 0 pin"
+        default 0
+        help
+            See schematic for the pin location
+    config MODULE_SLOT_2_PWM_CH1
+        int "Module slot 2 PWM kanaal 1 pin"
+        default 2
+        help
+            See schematic for the pin location
+
+    choice MODULE_2_STATUS_PIN_TYPE
+        prompt "Select the way the status pin of module 2 is connected"
+        default MODULE_2_STATUS_IS_SR
+            help
+                Select the amount of module drivers to instantiate
+        config MODULE_2_STATUS_IS_PHYSICAL
+            bool "Status is a physical pin"
+            select MODULE_2_STATUS_IS_PHYSICAL_PIN
+        config MODULE_2_STATUS_IS_SR
+            bool "Status is connected through a shift register"
+            select MODULE_2_STATUS_IS_SR_PIN
+    endchoice
+    
+    config MODULE_SLOT_2_STATUS_SR
+        int "Module slot 2 Status SR Pin"
+        depends on MODULE_2_STATUS_IS_SR_PIN
+        default 5
+        help 
+            The pin location on the shift register QA = 0, QH = 7
+    
+    config MODULE_SLOT_2_STATUS_PHYSICAL
+        int "Module slot 2 Status Physical Pin"
+        depends on MODULE_2_STATUS_IS_PHYSICAL_PIN
+        default 12
+        help 
+           The physical pin location on the esp. See schematic for the exact location
+
+    choice MODULE_2_TTL1_PIN_TYPE
+        prompt "Select the way the status pin of module 2 is connected"
+        default MODULE_2_TTL1_IS_SR
+        help
+            Select the amount of module drivers to instantiate
+        config MODULE_2_TTL1_IS_PHYSICAL
+            bool "TTL1 is a physical pin"
+            select MODULE_2_TTL1_IS_PHYSICAL_PIN
+        config MODULE_2_TTL1_IS_SR
+            bool "TTL1 is connected through a shift register"
+            select MODULE_2_TTL1_IS_SR_PIN
+    endchoice
+        
+    config MODULE_SLOT_2_TTL1_SR
+        int "Module slot 2 TTL1 SR Pin"
+        depends on MODULE_2_TTL1_IS_SR_PIN
+        default 4
+        help 
+            The pin location on the shift register QA = 0, QH = 7
+        
+    config MODULE_SLOT_2_TTL1_PHYSICAL
+        int "Module slot 2 TTL1 Physical Pin"
+        depends on MODULE_2_TTL1_IS_PHYSICAL_PIN
+        default 12
+        help 
+           The physical pin location on the esp. See schematic for the exact location
+    
+    
+    choice MODULE_2_TTL2_PIN_TYPE
+        prompt "Select the way the status pin of module 2 is connected"
+        default MODULE_2_TTL2_IS_SR
+        help
+            Select the amount of module drivers to instantiate
+        config MODULE_2_TTL2_IS_PHYSICAL
+            bool "TTL2 is a physical pin"
+            select MODULE_2_TTL1_IS_PHYSICAL_PIN
+        config MODULE_2_TTL2_IS_SR
+            bool "TTL2 is connected through a shift register"
+            select MODULE_2_TTL2_IS_SR_PIN
+    endchoice
+        
+    config MODULE_SLOT_2_TTL2_SR
+        int "Module slot 2 TTL2 SR Pin"
+        depends on MODULE_2_TTL2_IS_SR_PIN
+        default 6
+        help 
+            The pin location on the shift register QA = 0, QH = 7
+        
+    config MODULE_SLOT_2_TTL2_PHYSICAL
+        int "Module slot 2 TTL2 Physical Pin"
+        depends on MODULE_2_TTL2_IS_PHYSICAL_PIN
+        default 12
+        help 
+           The physical pin location on the esp. See schematic for the exact location 
+    
+    choice MODULE_2_TTL3_PIN_TYPE
+        prompt "Select the way the status pin of module 2 is connected"
+        default MODULE_2_TTL3_IS_IO_EXP
+        help
+            Select the amount of module drivers to instantiate
+        config MODULE_2_TTL3_IS_PHYSICAL
+            bool "TTL3 is a physical pin"
+            select MODULE_2_TTL3_IS_PHYSICAL_PIN
+        config MODULE_2_TTL3_IS_IO_EXP
+            bool "TTL3 is connected through an IO expander"
+            select MODULE_2_TTL3_IS_IO_EXP_PIN
+    endchoice
+        
+    config MODULE_SLOT_2_TTL3_IO_EXP
+        int "Module slot 2 TTL3 IO Expander Pin"
+        depends on MODULE_2_TTL3_IS_IO_EXP_PIN
+        default 3
+        help 
+            The pin location on the io expander P0 = 0, P7 = 7
+        
+    config MODULE_SLOT_2_TTL3_PHYSICAL
+        int "Module slot 2 TTL3 Physical Pin"
+        depends on MODULE_2_TTL3_IS_PHYSICAL_PIN
+        default 12
+        help 
+           The physical pin location on the esp. See schematic for the exact location 
+    endmenu
+endmenu
