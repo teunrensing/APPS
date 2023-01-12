@@ -16,7 +16,7 @@
 #include "esp_system.h"
 #include "esp_log.h"
 #include "gui_helper.h"
-
+#include "driver/i2c.h"
 
 #define I2C_MASTER_SCL_IO           CONFIG_I2C_MASTER_SCL      /*!< GPIO number used for I2C master clock */
 #define I2C_MASTER_SDA_IO           CONFIG_I2C_MASTER_SDA      /*!< GPIO number used for I2C master data  */
@@ -28,6 +28,10 @@
 #define TCA9534_NO2_I2C_ADDR        0b0100111
 
 #define TAG "MAIN"
+
+TCA9534_IO_EXP IO_EXP1; 
+TCA9534_IO_EXP IO_EXP2; 
+external_gui_peripheral_handles gui_peripherals;
 
 static esp_err_t i2c_master_init(i2c_config_t *conf) {
     int i2c_master_port = I2C_MASTER_NUM;
@@ -44,23 +48,21 @@ static esp_err_t i2c_master_init(i2c_config_t *conf) {
 }
 
 void initialize_io_expander(TCA9534_IO_EXP *IO_EXP, uint8_t i2c_addr){
-    esp_err_t status = i2c_master_init(&(IO_EXP->i2c_conf));
-    if (status == ESP_OK) {
-        ESP_LOGI(TAG, "I2C initialized successfully");
         IO_EXP->I2C_ADDR = i2c_addr;
         IO_EXP->i2c_master_port = I2C_MASTER_NUM;
         IO_EXP->interrupt_pin = GPIO_NUM_35;
         set_all_tca9534_io_pins_direction(IO_EXP, TCA9534_INPUT);
-    }
 }
 
 void app_main(void)
 {
-    TCA9534_IO_EXP IO_EXP1; 
-    TCA9534_IO_EXP IO_EXP2; 
+    i2c_config_t i2c_bus;
+    esp_err_t status = i2c_master_init(&i2c_bus);
+    if(status != ESP_OK)
+        while(1);
+    ESP_LOGI(TAG, "I2C initialized successfully");
     initialize_io_expander(&IO_EXP1, TCA9534_NO1_I2C_ADDR);
     initialize_io_expander(&IO_EXP2, TCA9534_NO2_I2C_ADDR);
-    external_gui_peripheral_handles gui_peripherals;
     gui_peripherals.IO_EXP1 = &IO_EXP1;
     gui_peripherals.IO_EXP2 = &IO_EXP2;
     xTaskCreatePinnedToCore(guiTask, "gui", LV_TASK_STACK_MEM, (void*) &gui_peripherals, 0, NULL, 1);

@@ -12,9 +12,9 @@
 static void  IRAM_ATTR encoder_driver_interrupt_handler(void *args){
     encoder_drv_t* enc = (encoder_drv_t*) args;
     if(gpio_get_level(enc->encoder_dir_pin))
-        enc->encoder_pulse_count++;
+         enc->encoder_pulse_count--;
     else
-        enc->encoder_pulse_count--;
+         enc->encoder_pulse_count++;
 }
 
 esp_err_t config_encoder(encoder_drv_t* encoder_instance){

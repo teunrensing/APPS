@@ -81,6 +81,7 @@ void guiTask(void *pvParameter) {
     encoder.io_exp_handle = peripheral_handles->IO_EXP1;
     encoder.encoder_clk_pin = GPIO_NUM_33;
     encoder.encoder_dir_pin = GPIO_NUM_34;
+    encoder.encoder_btn_pin = TCA9534_IO1;
     config_encoder(&encoder);
     register_encoder_isr(&encoder);
 
@@ -91,6 +92,10 @@ void guiTask(void *pvParameter) {
     indev_drv.read_cb = (void*) encoder_read;
     lv_indev_t * my_indev = lv_indev_drv_register(&indev_drv);
     lv_indev_enable(my_indev, true);
+
+    lv_group_t * g = lv_group_create();
+    lv_group_set_default(g);
+    lv_indev_set_group(my_indev, g);
 
     /* Create and start a periodic timer interrupt to call lv_tick_inc */
     const esp_timer_create_args_t periodic_timer_args = {
@@ -103,7 +108,7 @@ void guiTask(void *pvParameter) {
     ui_init();
     while (1) {
         /* Delay 1 tick (assumes FreeRTOS tick is 10ms */
-        vTaskDelay(pdMS_TO_TICKS(10));
+        vTaskDelay(pdMS_TO_TICKS(5));
 
         /* Try to take the semaphore, call lvgl related function on success */
         if (pdTRUE == xSemaphoreTake(xGuiSemaphore, portMAX_DELAY)) {
