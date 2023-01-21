@@ -5,7 +5,7 @@
 
 #include "ui.h"
 #include "ui_helpers.h"
-
+#include "gui_helper.h"
 ///////////////////// VARIABLES ////////////////////
 void Startup_Animation(lv_obj_t * TargetObject, int delay);
 void Sluitmoduleaan_Animation(lv_obj_t * TargetObject, int delay);
@@ -128,7 +128,7 @@ void ui_event_Interval_Button_Licht(lv_event_t * e);
 lv_obj_t * ui_Interval_Button_Licht;
 lv_obj_t * ui_Interval_getal3;
 lv_obj_t * ui_Interval_tekst3;
-
+uint8_t intensiteit, interval, frequentie = 0;
 ///////////////////// TEST LVGL SETTINGS ////////////////////
 #if LV_COLOR_DEPTH != 16
     #error "LV_COLOR_DEPTH should be 16bit to match SquareLine Studio's settings"
@@ -246,7 +246,7 @@ void ui_event_Startup(lv_event_t * e)
         Sluitmoduleaan_Animation(ui_Sluit_module_aan, 2000);
     }
     if(event_code == LV_EVENT_CLICKED) {
-        _ui_screen_change(ui_Vibratie, LV_SCR_LOAD_ANIM_FADE_ON, 0, 0);
+        _ui_screen_change(ui_TENS, LV_SCR_LOAD_ANIM_FADE_ON, 0, 0);
     }
     if(event_code == LV_EVENT_SCREEN_LOADED) {
         Sluitmoduleaan_Animation(ui_Sluit_module_aan1, 2000);
@@ -289,6 +289,7 @@ void ui_event_Arc1(lv_event_t * e)
         _ui_arc_set_text_value(ui_Intensiteit_getal, target, "", "%");
         _ui_arc_set_text_value(ui_Tekst_Arc1, target, "", "%");
         _ui_state_modify(ui_Intensiteit_Button_TENS, LV_STATE_PRESSED, _UI_MODIFY_STATE_REMOVE);
+        lv_group_focus_freeze(g, 0);
     }
 }
 void ui_event_Arc2(lv_event_t * e)
@@ -298,6 +299,7 @@ void ui_event_Arc2(lv_event_t * e)
     if(event_code == LV_EVENT_VALUE_CHANGED) {
         _ui_arc_set_text_value(ui_Frequentie_getal, target, "", " Hz");
         _ui_arc_set_text_value(ui_Tekst_Arc2, target, "", " Hz");
+        lv_group_focus_freeze(g, 0);
     }
 }
 void ui_event_Arc_Interval(lv_event_t * e)
@@ -306,6 +308,14 @@ void ui_event_Arc_Interval(lv_event_t * e)
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_CLICKED) {
         _ui_flag_modify(ui_Arc_Interval, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
+        lv_group_focus_freeze(g, 0);
+    }
+    else if(event_code == LV_EVENT_SCROLL){
+        char p[5];
+        memset(p, '\0', sizeof(p));
+        intensiteit++;
+        itoa(intensiteit,p,10);
+         lv_label_set_text(ui_Interval_getal, p);
     }
 }
 void ui_event_Arc3(lv_event_t * e)
@@ -323,9 +333,11 @@ void ui_event_Intensiteit_Button_TENS(lv_event_t * e)
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Arc_Intensiteit, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
+        lv_group_focus_freeze(g, 1);
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  !lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Arc_Intensiteit, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+        lv_group_focus_freeze(g, 0);
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Interval_Button_TENS, LV_OBJ_FLAG_CHECKABLE, _UI_MODIFY_FLAG_REMOVE);
@@ -346,9 +358,12 @@ void ui_event_Frequentie_Button_TENS(lv_event_t * e)
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Arc_Frequentie, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
+        lv_group_focus_freeze(g, 1);
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  !lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Arc_Frequentie, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+        lv_group_focus_freeze(g, 0);
+        
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Intensiteit_Button_TENS, LV_OBJ_FLAG_CLICKABLE, _UI_MODIFY_FLAG_REMOVE);
@@ -369,9 +384,11 @@ void ui_event_Interval_Button_TENS(lv_event_t * e)
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Arc_Interval, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
+        lv_group_focus_freeze(g, 1);
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  !lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Arc_Interval, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+        lv_group_focus_freeze(g, 0);        
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Intensiteit_Button_TENS, LV_OBJ_FLAG_CLICKABLE, _UI_MODIFY_FLAG_REMOVE);
@@ -385,6 +402,15 @@ void ui_event_Interval_Button_TENS(lv_event_t * e)
         _ui_flag_modify(ui_Frequentie_Button_TENS, LV_OBJ_FLAG_CLICKABLE, _UI_MODIFY_FLAG_ADD);
         _ui_flag_modify(ui_Frequentie_Button_TENS, LV_OBJ_FLAG_CHECKABLE, _UI_MODIFY_FLAG_ADD);
     }
+    if(event_code == LV_EVENT_KEY && lv_obj_has_state(target, LV_STATE_CHECKED)){
+        interval++;
+        char p[5];
+        memset(p, '\0', sizeof(p));
+        itoa(interval,p,10);
+         lv_label_set_text(ui_Interval_getal, p);
+        _ui_arc_set_text_value(ui_Interval_getal, ui_Arc_Interval, "", " Hz");
+    }
+    printf("Event: %d \n", event_code);
 }
 void ui_event_Start_knop_Vibratie(lv_event_t * e)
 {

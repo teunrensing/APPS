@@ -20,17 +20,28 @@
 SemaphoreHandle_t xGuiSemaphore;
 encoder_drv_t encoder;
 
+lv_group_t * g;
+
 #define TAG "GUI"
 
 bool encoder_read(lv_indev_drv_t * drv, lv_indev_data_t*data){
   data->enc_diff = get_encoder_count(&encoder);
+  if(data->enc_diff > 0){
+    data->key = LV_KEY_RIGHT;
+    //lv_event_send(ui_Interval_Button_TENS,LV_EVENT_KEY, NULL);
+
+  }
+  else if(data->enc_diff < 0){
+    data->key = LV_KEY_LEFT;
+    //lv_event_send(ui_Interval_Button_TENS,LV_EVENT_KEY, NULL);
+  }
   if(get_encoder_btn_status(&encoder)){
       data->state = LV_INDEV_STATE_PR;
-      lv_event_send(ui_Startup, LV_EVENT_CLICKED, NULL);
   } 
+ 
   else data->state = LV_INDEV_STATE_REL;
   reset_encoder_count(&encoder);
-  return false; 
+  return true; 
 }
 
 static void lv_tick_task(void *arg) {
@@ -93,10 +104,10 @@ void guiTask(void *pvParameter) {
     lv_indev_t * my_indev = lv_indev_drv_register(&indev_drv);
     lv_indev_enable(my_indev, true);
 
-    lv_group_t * g = lv_group_create();
-    lv_group_set_default(g);
+    g = lv_group_create();
+    //lv_group_add_obj(g, ui_Startup);
     lv_indev_set_group(my_indev, g);
-
+    //lv_group_add_obj(g, ui_Sluit_module_aan1);
     /* Create and start a periodic timer interrupt to call lv_tick_inc */
     const esp_timer_create_args_t periodic_timer_args = {
             .callback = &lv_tick_task,
@@ -106,6 +117,11 @@ void guiTask(void *pvParameter) {
     ESP_ERROR_CHECK(esp_timer_create(&periodic_timer_args, &periodic_timer));
     ESP_ERROR_CHECK(esp_timer_start_periodic(periodic_timer, LV_TICK_PERIOD_MS * 1000));
     ui_init();
+    lv_group_add_obj(g, ui_Startup);
+    lv_group_add_obj(g, ui_Intensiteit_Button_TENS);
+    lv_group_add_obj(g, ui_Frequentie_Button_TENS);
+    lv_group_add_obj(g, ui_Interval_Button_TENS);
+    lv_group_add_obj(g, ui_Arc_Intensiteit);
     while (1) {
         /* Delay 1 tick (assumes FreeRTOS tick is 10ms */
         vTaskDelay(pdMS_TO_TICKS(5));
