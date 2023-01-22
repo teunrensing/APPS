@@ -333,11 +333,15 @@ void ui_event_Intensiteit_Button_TENS(lv_event_t * e)
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Arc_Intensiteit, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
-        lv_group_focus_freeze(g, 1);
+        lv_group_add_obj(g, ui_Arc1);
+        lv_group_focus_obj(ui_Arc1);
+        lv_group_set_editing(g, 1);
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  !lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Arc_Intensiteit, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
-        lv_group_focus_freeze(g, 0);
+        lv_group_add_obj(g, ui_Arc1);
+        lv_group_focus_obj(ui_Arc1);
+        lv_group_set_editing(g, 0);
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Interval_Button_TENS, LV_OBJ_FLAG_CHECKABLE, _UI_MODIFY_FLAG_REMOVE);
@@ -358,11 +362,14 @@ void ui_event_Frequentie_Button_TENS(lv_event_t * e)
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Arc_Frequentie, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
-        lv_group_focus_freeze(g, 1);
+        lv_group_add_obj(g, ui_Arc2);
+        lv_group_focus_obj(ui_Arc2);
+        lv_group_set_editing(g, 1);
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  !lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Arc_Frequentie, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
-        lv_group_focus_freeze(g, 0);
+        lv_group_remove_obj(ui_Arc2);
+        lv_group_set_editing(g, 0);
         
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
@@ -384,11 +391,15 @@ void ui_event_Interval_Button_TENS(lv_event_t * e)
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Arc_Interval, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
-        lv_group_focus_freeze(g, 1);
+        lv_obj_add_flag(target, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
+        lv_group_add_obj(g, ui_Arc3);
+        lv_group_focus_obj(ui_Arc3);
+        lv_group_set_editing(g, 1);
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  !lv_obj_has_state(target, LV_STATE_CHECKED)) {
-        _ui_flag_modify(ui_Arc_Interval, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
-        lv_group_focus_freeze(g, 0);        
+        _ui_flag_modify(ui_Arc_Interval, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);     
+        lv_group_remove_obj(ui_Arc3); 
+        lv_group_set_editing(g, 0);
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Intensiteit_Button_TENS, LV_OBJ_FLAG_CLICKABLE, _UI_MODIFY_FLAG_REMOVE);
@@ -402,15 +413,22 @@ void ui_event_Interval_Button_TENS(lv_event_t * e)
         _ui_flag_modify(ui_Frequentie_Button_TENS, LV_OBJ_FLAG_CLICKABLE, _UI_MODIFY_FLAG_ADD);
         _ui_flag_modify(ui_Frequentie_Button_TENS, LV_OBJ_FLAG_CHECKABLE, _UI_MODIFY_FLAG_ADD);
     }
-    if(event_code == LV_EVENT_KEY && lv_obj_has_state(target, LV_STATE_CHECKED)){
-        interval++;
-        char p[5];
-        memset(p, '\0', sizeof(p));
-        itoa(interval,p,10);
-         lv_label_set_text(ui_Interval_getal, p);
-        _ui_arc_set_text_value(ui_Interval_getal, ui_Arc_Interval, "", " Hz");
-    }
-    printf("Event: %d \n", event_code);
+    // if(event_code == 13)
+    // {
+    // interval++;
+    // lv_indev_t *t = lv_indev_get_act();
+    // if(t == NULL)
+    //     printf("Error! \n");
+    // uint32_t key = lv_indev_get_key(t);
+    //     char p[10];
+    //     memset(p, '\0', sizeof(p));
+    //     printf("Number interval: %d dir: %d \n", interval, key);
+    //     snprintf(p, 10, "%d Sec", interval);
+    //     lv_label_set_text(ui_Interval_getal, p);
+    //     lv_arc_set_value(ui_Arc3, interval);
+
+    // }
+    //printf("Event: %d \n", event_code);
 }
 void ui_event_Start_knop_Vibratie(lv_event_t * e)
 {

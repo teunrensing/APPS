@@ -26,22 +26,13 @@ lv_group_t * g;
 
 bool encoder_read(lv_indev_drv_t * drv, lv_indev_data_t*data){
   data->enc_diff = get_encoder_count(&encoder);
-  if(data->enc_diff > 0){
-    data->key = LV_KEY_RIGHT;
-    //lv_event_send(ui_Interval_Button_TENS,LV_EVENT_KEY, NULL);
-
-  }
-  else if(data->enc_diff < 0){
-    data->key = LV_KEY_LEFT;
-    //lv_event_send(ui_Interval_Button_TENS,LV_EVENT_KEY, NULL);
-  }
   if(get_encoder_btn_status(&encoder)){
       data->state = LV_INDEV_STATE_PR;
   } 
  
   else data->state = LV_INDEV_STATE_REL;
   reset_encoder_count(&encoder);
-  return true; 
+  return false; 
 }
 
 static void lv_tick_task(void *arg) {
@@ -121,10 +112,9 @@ void guiTask(void *pvParameter) {
     lv_group_add_obj(g, ui_Intensiteit_Button_TENS);
     lv_group_add_obj(g, ui_Frequentie_Button_TENS);
     lv_group_add_obj(g, ui_Interval_Button_TENS);
-    lv_group_add_obj(g, ui_Arc_Intensiteit);
     while (1) {
         /* Delay 1 tick (assumes FreeRTOS tick is 10ms */
-        vTaskDelay(pdMS_TO_TICKS(5));
+        vTaskDelay(pdMS_TO_TICKS(10));
 
         /* Try to take the semaphore, call lvgl related function on success */
         if (pdTRUE == xSemaphoreTake(xGuiSemaphore, portMAX_DELAY)) {
