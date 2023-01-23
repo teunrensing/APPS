@@ -197,6 +197,18 @@ menu "Module Slots"
         default 12
         help 
            The physical pin location on the esp. See schematic for the exact location 
+    
+    config MODULE_SLOT_1_ID_ADC_CH
+        int "Module slot 1 ID ADC kanaal"
+        default 0
+        help
+            See schematic for the pin location
+
+    config MODULE_SLOT_1_ID_ADC_NUM
+        int "Module slot 1 ID ADC NUM"
+        default 1
+        help
+           See schematic for the pin location
     endmenu
 
     menu "MODULE SLOT 2 Pin Mapping"
@@ -354,5 +366,16 @@ menu "Module Slots"
         default 12
         help 
            The physical pin location on the esp. See schematic for the exact location 
+    config MODULE_SLOT_2_ID_ADC_CH
+        int "Module slot 2 ID ADC kanaal"
+        default 3
+        help
+           See schematic for the pin location
+
+    config MODULE_SLOT_2_ID_ADC_NUM
+        int "Module slot 2 ID ADC NUM"
+        default 1
+        help
+           See schematic for the pin location
     endmenu
 endmenu
