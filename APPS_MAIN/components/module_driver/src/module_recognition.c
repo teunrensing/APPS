@@ -9,7 +9,7 @@
 #include "module_recognition.h"
 
 #define DEFAULT_VREF    1100        //Use adc2_vref_to_gpio() to obtain a better estimate
-#define NO_OF_SAMPLES   100          //Multisampling
+#define NO_OF_SAMPLES   1         //Multisampling
 
 static esp_adc_cal_characteristics_t *adc_chars;
 static const adc_bits_width_t width = ADC_WIDTH_BIT_12;

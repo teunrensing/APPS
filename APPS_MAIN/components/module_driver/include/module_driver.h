@@ -1,6 +1,6 @@
 #ifndef MODULE_DRIVER_H
 #define MODULE_DRIVER_H
-
+#include "led_strip.h"
 typedef enum{
     pin_type_physical, pin_type_shift_register, pin_type_io_expander, pin_type_adc_chan
 }pin_type_t;
@@ -15,7 +15,8 @@ typedef enum {
 }module_types_t;
 
 typedef struct {
-     uint8_t test;
+     led_strip_t* led_strip_handle;
+     uint8_t rmt_channel;
 }led_drv_t;
 
 typedef struct {
@@ -54,12 +55,6 @@ typedef struct{
     driver_t module_driver_1;
     driver_t module_driver_2;
 }module_slot_drv_t;
-
-module_slot_drv_t Module_slot_1;
-
-#ifdef TWO_MODULE_SLOTS
-module_slot_drv_t Module_slot_2;
-#endif
 
 esp_err_t init_module_slot_pins(module_slot_drv_t* slot);
 esp_err_t init_module_drivers(module_slot_drv_t* slot);

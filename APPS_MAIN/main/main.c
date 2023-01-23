@@ -15,8 +15,9 @@
 #include "freertos/semphr.h"
 #include "esp_system.h"
 #include "esp_log.h"
-#include "gui_helper.h"
 #include "driver/i2c.h"
+#include "gui_helper.h"
+#include "module_driver_helper.h"
 
 #define I2C_MASTER_SCL_IO           CONFIG_I2C_MASTER_SCL      /*!< GPIO number used for I2C master clock */
 #define I2C_MASTER_SDA_IO           CONFIG_I2C_MASTER_SDA      /*!< GPIO number used for I2C master data  */
@@ -66,5 +67,6 @@ void app_main(void)
     gui_peripherals.IO_EXP1 = &IO_EXP1;
     gui_peripherals.IO_EXP2 = &IO_EXP2;
     xTaskCreatePinnedToCore(guiTask, "gui", LV_TASK_STACK_MEM, (void*) &gui_peripherals, 0, NULL, 1);
+    xTaskCreatePinnedToCore(moduledriverTask, "module driver", LV_TASK_STACK_MEM, NULL, 0, NULL, 1);
 }
 
