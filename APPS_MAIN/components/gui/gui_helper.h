@@ -2,6 +2,7 @@
 #define GUI_HELPER_H
 #include "TCA9534.h"
 #include "lvgl.h"
+#include "module_driver.h"
 #define LV_TASK_STACK_MEM 8196
 #define LV_TICK_PERIOD_MS 1
 #define LV_HOR_RES_MAX 320
@@ -9,10 +10,12 @@
 #define SPI_HOST_MAX 3
 
 extern lv_group_t * g;
+extern QueueHandle_t Queue_GUI;
 
 typedef struct{
 TCA9534_IO_EXP* IO_EXP1;
 TCA9534_IO_EXP* IO_EXP2;
+QueueHandle_t xQueue1;
 } external_gui_peripheral_handles;
 
 

@@ -66,7 +66,14 @@ void app_main(void)
     initialize_io_expander(&IO_EXP2, TCA9534_NO2_I2C_ADDR);
     gui_peripherals.IO_EXP1 = &IO_EXP1;
     gui_peripherals.IO_EXP2 = &IO_EXP2;
+    gui_peripherals.xQueue1 = xQueueCreate( 10, sizeof(module_parameters_t) );
+
+    if( gui_peripherals.xQueue1 == NULL )
+    {
+        /* Queue was not created and must not be used. */
+    }
+
     xTaskCreatePinnedToCore(guiTask, "gui", LV_TASK_STACK_MEM, (void*) &gui_peripherals, 0, NULL, 1);
-    xTaskCreatePinnedToCore(moduledriverTask, "module driver", LV_TASK_STACK_MEM, NULL, 0, NULL, 1);
+    xTaskCreatePinnedToCore(moduledriverTask, "module driver", LV_TASK_STACK_MEM, (void*)&(gui_peripherals.xQueue1), 0, NULL, 1);
 }
 

@@ -11,6 +11,7 @@
 
 
 void moduledriverTask(void *pvParameter){
+    QueueHandle_t *queue = (QueueHandle_t *)pvParameter;
     module_slot_drv_t Module_slot_1;
     Module_slot_1.module_slot_num = 1;
     #ifdef TWO_MODULE_SLOTS
@@ -28,7 +29,6 @@ void moduledriverTask(void *pvParameter){
     Module_slot_1.parameters.interval = 0;
 
     init_module_drivers(&Module_slot_1);
-    turn_module_on(&Module_slot_1);
     // driver_t *module_driver_1 = &(Module_slot_1.module_driver_1);
     // led_drv_t *led_driver = &(module_driver_1->led_driver);
     // led_driver->rmt_channel = 0;
@@ -40,10 +40,21 @@ void moduledriverTask(void *pvParameter){
     // p->set_pixel(p, 0, 10,10,10);
     // p->refresh(p, 100);
     while(1){
-        turn_module_on(&Module_slot_1);
-        vTaskDelay(100/portTICK_PERIOD_MS);
-        turn_module_off(&Module_slot_1);
-        vTaskDelay(100/portTICK_PERIOD_MS); 
+        if( queue != NULL )
+   {
+      /* Receive a message from the created queue to hold complex struct AMessage
+      structure.  Block for 10 ticks if a message is not immediately available.
+      The value is read into a struct AMessage variable, so after calling
+      xQueueReceive() xRxedStructure will hold a copy of xMessage. */
+      module_parameters_t parameters;
+      if( xQueueReceive( *queue,
+                         &parameters,
+                         ( TickType_t ) 10 ) == pdPASS )
+      {
+         /* xRxedStructure now contains a copy of xMessage. */
+         printf("%d\n", parameters.intensiteit);
+      }
+   }
     }
     vTaskDelete(NULL);
 }

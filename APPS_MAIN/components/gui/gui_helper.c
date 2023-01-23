@@ -20,6 +20,7 @@
 SemaphoreHandle_t xGuiSemaphore;
 encoder_drv_t encoder;
 
+QueueHandle_t Queue_GUI;
 lv_group_t * g;
 
 #define TAG "GUI"
@@ -45,6 +46,7 @@ void guiTask(void *pvParameter) {
 
     external_gui_peripheral_handles* peripheral_handles = (external_gui_peripheral_handles*) pvParameter;
     xGuiSemaphore = xSemaphoreCreateMutex();
+    Queue_GUI = peripheral_handles->xQueue1;
     lv_init();
 
     /* Initialize SPI or I2C bus used by the drivers */
@@ -96,9 +98,8 @@ void guiTask(void *pvParameter) {
     lv_indev_enable(my_indev, true);
 
     g = lv_group_create();
-    //lv_group_add_obj(g, ui_Startup);
     lv_indev_set_group(my_indev, g);
-    //lv_group_add_obj(g, ui_Sluit_module_aan1);
+
     /* Create and start a periodic timer interrupt to call lv_tick_inc */
     const esp_timer_create_args_t periodic_timer_args = {
             .callback = &lv_tick_task,
@@ -112,6 +113,9 @@ void guiTask(void *pvParameter) {
     lv_group_add_obj(g, ui_Intensiteit_Button_TENS);
     lv_group_add_obj(g, ui_Frequentie_Button_TENS);
     lv_group_add_obj(g, ui_Interval_Button_TENS);
+    lv_group_add_obj(g, ui_Intensiteit_Button_Licht);
+    lv_group_add_obj(g, ui_Kleur_Button_Licht);
+    lv_group_add_obj(g, ui_Interval_Button_Licht);
     while (1) {
         /* Delay 1 tick (assumes FreeRTOS tick is 10ms */
         vTaskDelay(pdMS_TO_TICKS(10));
