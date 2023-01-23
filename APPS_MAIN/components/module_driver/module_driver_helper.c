@@ -8,6 +8,8 @@
 #include "module_recognition.h"
 #include "led_strip.h"
 #include "driver/gpio.h"
+
+
 void moduledriverTask(void *pvParameter){
     module_slot_drv_t Module_slot_1;
     Module_slot_1.module_slot_num = 1;
@@ -17,19 +19,31 @@ void moduledriverTask(void *pvParameter){
     init_module_slot_pins(&Module_slot_1);
     init_module_recognition(&Module_slot_1);
     module_types_t module_type = get_module_type(&Module_slot_1);
-    driver_t *module_driver_1 = &(Module_slot_1.module_driver_1);
-    led_drv_t *led_driver = &(module_driver_1->led_driver);
-    led_driver->rmt_channel = 0;
-    gpio_set_direction(GPIO_NUM_4, GPIO_MODE_OUTPUT);
-    led_driver->led_strip_handle= led_strip_init(0, 4, 2);
-    led_strip_t *p = led_driver->led_strip_handle;
-    p->clear(p, 100);
-    vTaskDelay(10 / portTICK_PERIOD_MS);
+    Module_slot_1.driver_1_type = LED_DRIVER_TYPE;
+    Module_slot_1.driver_2_type = UNUSED_DRIVER;
+    Module_slot_1.parameters.kleur[0] = 10;
+    Module_slot_1.parameters.kleur[1] = 10;
+    Module_slot_1.parameters.kleur[2] = 10;
+    Module_slot_1.parameters.intensiteit = 100;
+    Module_slot_1.parameters.interval = 0;
 
+    init_module_drivers(&Module_slot_1);
+    turn_module_on(&Module_slot_1);
+    // driver_t *module_driver_1 = &(Module_slot_1.module_driver_1);
+    // led_drv_t *led_driver = &(module_driver_1->led_driver);
+    // led_driver->rmt_channel = 0;
+    // gpio_set_direction(GPIO_NUM_4, GPIO_MODE_OUTPUT);
+    // led_driver->led_strip_handle= led_strip_init(0, 4, 2);
+    // led_strip_t *p = led_driver->led_strip_handle;
+    // p->clear(p, 100);
+    // vTaskDelay(10 / portTICK_PERIOD_MS);
+    // p->set_pixel(p, 0, 10,10,10);
+    // p->refresh(p, 100);
     while(1){
-        vTaskDelay(100/portTICK_PERIOD_MS);   
-        p->set_pixel(p, 0, 10,1,25);
-        p->refresh(p, 100);
+        turn_module_on(&Module_slot_1);
+        vTaskDelay(100/portTICK_PERIOD_MS);
+        turn_module_off(&Module_slot_1);
+        vTaskDelay(100/portTICK_PERIOD_MS); 
     }
     vTaskDelete(NULL);
 }

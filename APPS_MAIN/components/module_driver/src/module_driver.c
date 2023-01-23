@@ -5,6 +5,7 @@
 #include "esp_log.h"
 #include "sdkconfig.h"
 #include "module_driver.h"
+#include "led_driver.h"
 
 esp_err_t init_module_slot_pins(module_slot_drv_t* slot){
     module_slot_pins_t *module_pins = &(slot->pins);
@@ -92,4 +93,30 @@ esp_err_t init_module_slot_pins(module_slot_drv_t* slot){
         module_pins->ID_ADC_NUM = CONFIG_MODULE_SLOT_2_ID_ADC_NUM;
     }
     return ESP_OK;
+}
+
+esp_err_t init_module_drivers(module_slot_drv_t* slot){
+if(slot->driver_1_type == LED_DRIVER_TYPE)
+    initialize_led_driver(&(slot->module_driver_1.led_driver), slot->pins.PWM1.location);
+if(slot->driver_2_type == LED_DRIVER_TYPE)
+    initialize_led_driver(&(slot->module_driver_2.led_driver), slot->pins.PWM2.location);
+return ESP_OK;
+}
+esp_err_t turn_module_on(module_slot_drv_t* slot){
+if(slot->driver_1_type == LED_DRIVER_TYPE)
+    turn_on_led_driver(slot);
+return ESP_OK;
+}
+
+esp_err_t turn_module_off(module_slot_drv_t* slot){
+if(slot->driver_1_type == LED_DRIVER_TYPE)
+    turn_off_led_driver(slot);
+return ESP_OK;
+}
+esp_err_t refresh_module(module_slot_drv_t* slot){
+turn_module_on(slot);
+return ESP_OK;
+}
+esp_err_t set_module_parameters(module_parameters_t* parameters){
+return ESP_OK;
 }

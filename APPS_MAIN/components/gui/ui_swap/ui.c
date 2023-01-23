@@ -246,7 +246,7 @@ void ui_event_Startup(lv_event_t * e)
         Sluitmoduleaan_Animation(ui_Sluit_module_aan, 2000);
     }
     if(event_code == LV_EVENT_CLICKED) {
-        _ui_screen_change(ui_TENS, LV_SCR_LOAD_ANIM_FADE_ON, 0, 0);
+        _ui_screen_change(ui_Licht, LV_SCR_LOAD_ANIM_FADE_ON, 0, 0);
     }
     if(event_code == LV_EVENT_SCREEN_LOADED) {
         Sluitmoduleaan_Animation(ui_Sluit_module_aan1, 2000);
