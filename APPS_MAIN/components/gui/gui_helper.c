@@ -36,6 +36,17 @@ bool encoder_read(lv_indev_drv_t * drv, lv_indev_data_t*data){
   return false; 
 }
 
+bool start_knop_read(lv_indev_drv_t * drv, lv_indev_data_t*data){
+    TCA9534_IO_EXP* IO_EXP = (TCA9534_IO_EXP *)drv->user_data;
+    int but_status = get_io_pin_input_status(IO_EXP, TCA9534_IO5);
+  if(but_status == 1){
+      data->state = LV_INDEV_STATE_PR;
+      //lv_event_send(ui_Start_knop_Licht, LV_EVENT_VALUE_CHANGED, NULL);
+  } 
+  else data->state = LV_INDEV_STATE_REL;
+  return false; 
+}
+
 static void lv_tick_task(void *arg) {
     (void) arg;
 
@@ -99,12 +110,24 @@ void guiTask(void *pvParameter) {
 
     g = lv_group_create();
     lv_indev_set_group(my_indev, g);
-
     /* Create and start a periodic timer interrupt to call lv_tick_inc */
     const esp_timer_create_args_t periodic_timer_args = {
             .callback = &lv_tick_task,
             .name = "periodic_gui"
     };
+    /* Initialize start knop*/
+    lv_indev_drv_t start_knop;
+    lv_indev_drv_init(&start_knop);
+    start_knop.type = LV_INDEV_TYPE_ENCODER;
+    start_knop.read_cb = (void*) start_knop_read;
+    start_knop.user_data = peripheral_handles->IO_EXP1;
+    lv_indev_t * my_start_knop = lv_indev_drv_register(&start_knop);
+    lv_indev_enable(my_start_knop, true);
+
+    lv_group_t *start_group;
+    start_group = lv_group_create();
+    lv_indev_set_group(my_start_knop, start_group);
+
     esp_timer_handle_t periodic_timer;
     ESP_ERROR_CHECK(esp_timer_create(&periodic_timer_args, &periodic_timer));
     ESP_ERROR_CHECK(esp_timer_start_periodic(periodic_timer, LV_TICK_PERIOD_MS * 1000));
@@ -116,6 +139,9 @@ void guiTask(void *pvParameter) {
     lv_group_add_obj(g, ui_Intensiteit_Button_Licht);
     lv_group_add_obj(g, ui_Kleur_Button_Licht);
     lv_group_add_obj(g, ui_Interval_Button_Licht);
+
+    lv_group_add_obj(start_group, ui_Start_knop_Licht);
+    lv_group_focus_obj(ui_Start_knop_Licht);
     while (1) {
         /* Delay 1 tick (assumes FreeRTOS tick is 10ms */
         vTaskDelay(pdMS_TO_TICKS(10));

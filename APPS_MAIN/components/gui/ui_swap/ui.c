@@ -563,7 +563,26 @@ void ui_event_Start_knop_Licht(lv_event_t * e)
         char *interval = lv_label_get_text(ui_Tekst_Arc10);
         module_parameters_t parameters;
         parameters.intensiteit = atoi(intensiteit);
-        memset(parameters.kleur, 0, 3);
+        if(!lv_obj_has_flag(ui_Rood, LV_OBJ_FLAG_HIDDEN)){
+            parameters.kleur[0] = (255*parameters.intensiteit)/100;
+            parameters.kleur[1] = 0;
+            parameters.kleur[2] = 0;
+        }
+        else if(!lv_obj_has_flag(ui_Groen, LV_OBJ_FLAG_HIDDEN)){
+            parameters.kleur[0] = 0;
+            parameters.kleur[1] = (255*parameters.intensiteit)/100;
+            parameters.kleur[2] = 0;
+        }
+        else if(!lv_obj_has_flag(ui_Blauw, LV_OBJ_FLAG_HIDDEN)){
+            parameters.kleur[0] = 0;
+            parameters.kleur[1] = 0;
+            parameters.kleur[2] = (255*parameters.intensiteit)/100;
+        }
+        else{
+            parameters.kleur[0] = (200*parameters.intensiteit)/100;
+            parameters.kleur[1] = (255*parameters.intensiteit)/100;
+            parameters.kleur[2] = 0;
+        }
         parameters.interval = atoi(interval);
         xQueueSend(Queue_GUI, ( void * ) &parameters, ( TickType_t ) 0 );
     }
@@ -574,6 +593,9 @@ void ui_event_Start_knop_Licht(lv_event_t * e)
         _ui_flag_modify(ui_Kleur_Button_Licht, LV_OBJ_FLAG_CLICKABLE, _UI_MODIFY_FLAG_ADD);
         _ui_flag_modify(ui_Interval_Button_Licht, LV_OBJ_FLAG_CHECKABLE, _UI_MODIFY_FLAG_ADD);
         _ui_flag_modify(ui_Interval_Button_Licht, LV_OBJ_FLAG_CLICKABLE, _UI_MODIFY_FLAG_ADD);
+        module_parameters_t parameters;
+        parameters.intensiteit = 0;
+        xQueueSend(Queue_GUI, ( void * ) &parameters, ( TickType_t ) 0 );
     }
 }
 void ui_event_Arc13(lv_event_t * e)

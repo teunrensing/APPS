@@ -52,7 +52,14 @@ void moduledriverTask(void *pvParameter){
                          ( TickType_t ) 10 ) == pdPASS )
       {
          /* xRxedStructure now contains a copy of xMessage. */
-         printf("%d\n", parameters.intensiteit);
+         printf("Kleur r: %d g: %d b: %d i: %d iv: %d\n", parameters.kleur[0], parameters.kleur[1], parameters.kleur[2], parameters.intensiteit, parameters.interval);
+         Module_slot_1.parameters = parameters;
+         if(parameters.intensiteit == 0){
+            turn_module_off(&Module_slot_1);
+         }
+         else{
+            turn_module_on(&Module_slot_1);
+         }
       }
    }
     }
