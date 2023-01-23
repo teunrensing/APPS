@@ -27,5 +27,6 @@
         "*.inc": "c"
     },
     "idf.flashType": "UART",
-    "nrf-connect.toolchain.path": "${nrf-connect.toolchain:2.1.0}"
+    "nrf-connect.toolchain.path": "${nrf-connect.toolchain:2.1.0}",
+    "nrf-connect.topdir": "${nrf-connect.sdk:2.1.0}"
 }
