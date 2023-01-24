@@ -56,6 +56,7 @@ typedef struct{
     uint8_t intensiteit;
     uint8_t kleur[3];
     uint8_t interval;
+    uint8_t state;
 }module_parameters_t;
 
 typedef struct{

@@ -22,6 +22,7 @@ extern "C" {
 #include "lvgl.h"
 #endif
 
+
 void Startup_Animation(lv_obj_t * TargetObject, int delay);
 void Sluitmoduleaan_Animation(lv_obj_t * TargetObject, int delay);
 void ui_event_Startup(lv_event_t * e);

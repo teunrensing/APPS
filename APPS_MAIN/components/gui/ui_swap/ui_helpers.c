@@ -4,6 +4,7 @@
 // PROJECT: APPS GUI V5
 
 #include "ui_helpers.h"
+#include "module_driver.h"
 
 void _ui_bar_set_property(lv_obj_t * target, int id, int val)
 {
@@ -187,3 +188,38 @@ void _ui_checked_set_text_value(lv_obj_t * trg, lv_obj_t * src, char * txt_on, c
 }
 
 
+void _ui_send_light_parameters_to_module(QueueHandle_t Queue){
+        char *intensiteit = lv_label_get_text(ui_Tekst_Arc8);
+        char *interval = lv_label_get_text(ui_Tekst_Arc10);
+        module_parameters_t parameters;
+        parameters.intensiteit = atoi(intensiteit);
+        if(!lv_obj_has_flag(ui_Rood, LV_OBJ_FLAG_HIDDEN)){
+            parameters.kleur[0] = (255*parameters.intensiteit)/100;
+            parameters.kleur[1] = 0;
+            parameters.kleur[2] = 0;
+        }
+        else if(!lv_obj_has_flag(ui_Groen, LV_OBJ_FLAG_HIDDEN)){
+            parameters.kleur[0] = 0;
+            parameters.kleur[1] = (255*parameters.intensiteit)/100;
+            parameters.kleur[2] = 0;
+        }
+        else if(!lv_obj_has_flag(ui_Blauw, LV_OBJ_FLAG_HIDDEN)){
+            parameters.kleur[0] = 0;
+            parameters.kleur[1] = 0;
+            parameters.kleur[2] = (255*parameters.intensiteit)/100;
+        }
+        else{
+            parameters.kleur[0] = (200*parameters.intensiteit)/100;
+            parameters.kleur[1] = (255*parameters.intensiteit)/100;
+            parameters.kleur[2] = 0;
+        }
+        parameters.state = 1;
+        parameters.interval = atoi(interval);
+        xQueueSend(Queue, ( void * ) &parameters, ( TickType_t ) 0 );
+}
+
+void _ui_turn_module_off(QueueHandle_t Queue){
+        module_parameters_t parameters;
+        parameters.state = 0;
+        xQueueSend(Queue, ( void * ) &parameters, ( TickType_t ) 0 );
+}

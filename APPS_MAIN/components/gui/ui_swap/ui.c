@@ -5,7 +5,7 @@
 
 #include "ui.h"
 #include "ui_helpers.h"
-#include "gui_helper.h"
+
 ///////////////////// VARIABLES ////////////////////
 void Startup_Animation(lv_obj_t * TargetObject, int delay);
 void Sluitmoduleaan_Animation(lv_obj_t * TargetObject, int delay);
@@ -285,14 +285,15 @@ void ui_event_Arc1(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
+    lv_group_t* encoder_indev_group = lv_obj_get_group(target);
     if(event_code == LV_EVENT_VALUE_CHANGED) {
         _ui_arc_set_text_value(ui_Intensiteit_getal, target, "", "%");
         _ui_arc_set_text_value(ui_Tekst_Arc1, target, "", "%");
         _ui_state_modify(ui_Intensiteit_Button_TENS, LV_STATE_PRESSED, _UI_MODIFY_STATE_REMOVE);
-        lv_group_focus_freeze(g, 0);
+        lv_group_focus_freeze(encoder_indev_group, 0);
     }
     if(event_code == LV_EVENT_CLICKED){
-        lv_group_set_editing(g, 0);
+        lv_group_set_editing(encoder_indev_group, 0);
         lv_obj_clear_state(ui_Intensiteit_Button_TENS, LV_STATE_CHECKED);
         lv_event_send(ui_Intensiteit_Button_TENS, LV_EVENT_VALUE_CHANGED, NULL);
     }
@@ -301,13 +302,14 @@ void ui_event_Arc2(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
+    lv_group_t* encoder_indev_group = lv_obj_get_group(target);
     if(event_code == LV_EVENT_VALUE_CHANGED) {
         _ui_arc_set_text_value(ui_Frequentie_getal, target, "", " Hz");
         _ui_arc_set_text_value(ui_Tekst_Arc2, target, "", " Hz");
-        lv_group_focus_freeze(g, 0);
+        lv_group_focus_freeze(encoder_indev_group, 0);
     }
     if(event_code == LV_EVENT_CLICKED){
-        lv_group_set_editing(g, 0);
+        lv_group_set_editing(encoder_indev_group, 0);
         lv_obj_clear_state(ui_Frequentie_Button_TENS, LV_STATE_CHECKED);
         lv_event_send(ui_Frequentie_Button_TENS, LV_EVENT_VALUE_CHANGED, NULL);
     }
@@ -316,9 +318,10 @@ void ui_event_Arc_Interval(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
+    lv_group_t* encoder_indev_group = lv_obj_get_group(target);
     if(event_code == LV_EVENT_CLICKED) {
         _ui_flag_modify(ui_Arc_Interval, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
-        lv_group_focus_freeze(g, 0);
+        lv_group_focus_freeze(encoder_indev_group, 0);
     }
 }
 void ui_event_Arc3(lv_event_t * e)
@@ -330,7 +333,8 @@ void ui_event_Arc3(lv_event_t * e)
         _ui_arc_set_text_value(ui_Tekst_Arc3, target, "", " Sec");
     }
     if(event_code == LV_EVENT_CLICKED){
-        lv_group_set_editing(g, 0);
+        lv_group_t* encoder_indev_group = lv_obj_get_group(target);
+        lv_group_set_editing(encoder_indev_group, 0);
         lv_obj_clear_state(ui_Interval_Button_TENS, LV_STATE_CHECKED);
         lv_event_send(ui_Interval_Button_TENS, LV_EVENT_VALUE_CHANGED, NULL);
     }
@@ -339,17 +343,18 @@ void ui_event_Intensiteit_Button_TENS(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
+    lv_group_t* encoder_indev_group = lv_obj_get_group(target);
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Arc_Intensiteit, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
-        lv_group_add_obj(g, ui_Arc1);
+        lv_group_add_obj(encoder_indev_group, ui_Arc1);
         lv_group_focus_obj(ui_Arc1);
-        lv_group_set_editing(g, 1);
+        lv_group_set_editing(encoder_indev_group, 1);
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  !lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Arc_Intensiteit, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
-        lv_group_add_obj(g, ui_Arc1);
+        lv_group_add_obj(encoder_indev_group, ui_Arc1);
         lv_group_focus_obj(target);
-        lv_group_set_editing(g, 0);
+        lv_group_set_editing(encoder_indev_group, 0);
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Interval_Button_TENS, LV_OBJ_FLAG_CHECKABLE, _UI_MODIFY_FLAG_REMOVE);
@@ -368,17 +373,18 @@ void ui_event_Frequentie_Button_TENS(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
+    lv_group_t* encoder_indev_group = lv_obj_get_group(target);
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Arc_Frequentie, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
-        lv_group_add_obj(g, ui_Arc2);
+        lv_group_add_obj(encoder_indev_group, ui_Arc2);
         lv_group_focus_obj(ui_Arc2);
-        lv_group_set_editing(g, 1);
+        lv_group_set_editing(encoder_indev_group, 1);
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  !lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Arc_Frequentie, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
         lv_group_remove_obj(ui_Arc2);
         lv_group_focus_obj(target);
-        lv_group_set_editing(g, 0);
+        lv_group_set_editing(encoder_indev_group, 0);
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Intensiteit_Button_TENS, LV_OBJ_FLAG_CLICKABLE, _UI_MODIFY_FLAG_REMOVE);
@@ -397,17 +403,18 @@ void ui_event_Interval_Button_TENS(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
+    lv_group_t* encoder_indev_group = lv_obj_get_group(target);
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Arc_Interval, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
         lv_obj_add_flag(target, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
-        lv_group_add_obj(g, ui_Arc3);
+        lv_group_add_obj(encoder_indev_group, ui_Arc3);
         lv_group_focus_obj(ui_Arc3);
-        lv_group_set_editing(g, 1);
+        lv_group_set_editing(encoder_indev_group, 1);
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  !lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Arc_Interval, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);     
         lv_group_remove_obj(ui_Arc3); 
-        lv_group_set_editing(g, 0);
+        lv_group_set_editing(encoder_indev_group, 0);
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Intensiteit_Button_TENS, LV_OBJ_FLAG_CLICKABLE, _UI_MODIFY_FLAG_REMOVE);
@@ -552,6 +559,7 @@ void ui_event_Start_knop_Licht(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
+    QueueHandle_t Queue_GUI = (QueueHandle_t)lv_obj_get_user_data(target);
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Kleur_Button_Licht, LV_OBJ_FLAG_CHECKABLE, _UI_MODIFY_FLAG_REMOVE);
         _ui_flag_modify(ui_Intensiteit_Button_Licht, LV_OBJ_FLAG_CHECKABLE, _UI_MODIFY_FLAG_REMOVE);
@@ -559,32 +567,7 @@ void ui_event_Start_knop_Licht(lv_event_t * e)
         _ui_flag_modify(ui_Intensiteit_Button_Licht, LV_OBJ_FLAG_CLICKABLE, _UI_MODIFY_FLAG_REMOVE);
         _ui_flag_modify(ui_Kleur_Button_Licht, LV_OBJ_FLAG_CLICKABLE, _UI_MODIFY_FLAG_REMOVE);
         _ui_flag_modify(ui_Interval_Button_Licht, LV_OBJ_FLAG_CLICKABLE, _UI_MODIFY_FLAG_REMOVE);
-        char *intensiteit = lv_label_get_text(ui_Tekst_Arc8);
-        char *interval = lv_label_get_text(ui_Tekst_Arc10);
-        module_parameters_t parameters;
-        parameters.intensiteit = atoi(intensiteit);
-        if(!lv_obj_has_flag(ui_Rood, LV_OBJ_FLAG_HIDDEN)){
-            parameters.kleur[0] = (255*parameters.intensiteit)/100;
-            parameters.kleur[1] = 0;
-            parameters.kleur[2] = 0;
-        }
-        else if(!lv_obj_has_flag(ui_Groen, LV_OBJ_FLAG_HIDDEN)){
-            parameters.kleur[0] = 0;
-            parameters.kleur[1] = (255*parameters.intensiteit)/100;
-            parameters.kleur[2] = 0;
-        }
-        else if(!lv_obj_has_flag(ui_Blauw, LV_OBJ_FLAG_HIDDEN)){
-            parameters.kleur[0] = 0;
-            parameters.kleur[1] = 0;
-            parameters.kleur[2] = (255*parameters.intensiteit)/100;
-        }
-        else{
-            parameters.kleur[0] = (200*parameters.intensiteit)/100;
-            parameters.kleur[1] = (255*parameters.intensiteit)/100;
-            parameters.kleur[2] = 0;
-        }
-        parameters.interval = atoi(interval);
-        xQueueSend(Queue_GUI, ( void * ) &parameters, ( TickType_t ) 0 );
+        _ui_send_light_parameters_to_module(Queue_GUI);
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  !lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Intensiteit_Button_Licht, LV_OBJ_FLAG_CHECKABLE, _UI_MODIFY_FLAG_ADD);
@@ -593,9 +576,7 @@ void ui_event_Start_knop_Licht(lv_event_t * e)
         _ui_flag_modify(ui_Kleur_Button_Licht, LV_OBJ_FLAG_CLICKABLE, _UI_MODIFY_FLAG_ADD);
         _ui_flag_modify(ui_Interval_Button_Licht, LV_OBJ_FLAG_CHECKABLE, _UI_MODIFY_FLAG_ADD);
         _ui_flag_modify(ui_Interval_Button_Licht, LV_OBJ_FLAG_CLICKABLE, _UI_MODIFY_FLAG_ADD);
-        module_parameters_t parameters;
-        parameters.intensiteit = 0;
-        xQueueSend(Queue_GUI, ( void * ) &parameters, ( TickType_t ) 0 );
+        _ui_turn_module_off(Queue_GUI);
     }
 }
 void ui_event_Arc13(lv_event_t * e)
@@ -608,7 +589,8 @@ void ui_event_Arc13(lv_event_t * e)
         _ui_state_modify(ui_Intensiteit_Button_Licht, LV_STATE_PRESSED, _UI_MODIFY_STATE_REMOVE);
     }
     if(event_code == LV_EVENT_CLICKED){
-        lv_group_set_editing(g, 0);
+        lv_group_t* encoder_indev_group = lv_obj_get_group(target);
+        lv_group_set_editing(encoder_indev_group, 0);
         lv_obj_clear_state(ui_Intensiteit_Button_Licht, LV_STATE_CHECKED);
         lv_event_send(ui_Intensiteit_Button_Licht, LV_EVENT_VALUE_CHANGED, NULL);
     }
@@ -738,7 +720,8 @@ void ui_event_Arc14(lv_event_t * e)
         _ui_arc_set_text_value(ui_Tekst_Arc10, target, "", " Sec");
     }
     if(event_code == LV_EVENT_CLICKED){
-        lv_group_set_editing(g, 0);
+        lv_group_t* encoder_indev_group = lv_obj_get_group(target);
+        lv_group_set_editing(encoder_indev_group, 0);
         lv_obj_clear_state(ui_Interval_Button_Licht, LV_STATE_CHECKED);
         lv_event_send(ui_Interval_Button_Licht, LV_EVENT_VALUE_CHANGED, NULL);
     }
@@ -747,17 +730,18 @@ void ui_event_Intensiteit_Button_Licht(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
+    lv_group_t* encoder_indev_group = lv_obj_get_group(target);
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Arc_Intensiteit3, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
-        lv_group_add_obj(g, ui_Arc13);
+        lv_group_add_obj(encoder_indev_group, ui_Arc13);
         lv_group_focus_obj(ui_Arc13);
-        lv_group_set_editing(g, 1);
+        lv_group_set_editing(encoder_indev_group, 1);
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  !lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Arc_Intensiteit3, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
         lv_group_remove_obj(ui_Arc13);
         lv_group_focus_obj(target);
-        lv_group_set_editing(g, 0);
+        lv_group_set_editing(encoder_indev_group, 0);
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Interval_Button_Licht, LV_OBJ_FLAG_CHECKABLE, _UI_MODIFY_FLAG_REMOVE);
@@ -776,12 +760,13 @@ void ui_event_Kleur_Button_Licht(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
+    lv_group_t* encoder_indev_group = lv_obj_get_group(target);
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Kleur, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
-        lv_group_add_obj(g, ui_Button_Rood);
-        lv_group_add_obj(g, ui_Button_Groen);
-        lv_group_add_obj(g, ui_Button_Blauw);
-        lv_group_add_obj(g, ui_Button_Geel);
+        lv_group_add_obj(encoder_indev_group, ui_Button_Rood);
+        lv_group_add_obj(encoder_indev_group, ui_Button_Groen);
+        lv_group_add_obj(encoder_indev_group, ui_Button_Blauw);
+        lv_group_add_obj(encoder_indev_group, ui_Button_Geel);
         lv_group_focus_obj(ui_Button_Rood);
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  !lv_obj_has_state(target, LV_STATE_CHECKED)) {
@@ -809,17 +794,18 @@ void ui_event_Interval_Button_Licht(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
+    lv_group_t* encoder_indev_group = lv_obj_get_group(target);
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Arc_Interval3, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
-        lv_group_add_obj(g, ui_Arc14);
+        lv_group_add_obj(encoder_indev_group, ui_Arc14);
         lv_group_focus_obj(ui_Arc14);
-        lv_group_set_editing(g, 1);
+        lv_group_set_editing(encoder_indev_group, 1);
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  !lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Arc_Interval3, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
         lv_group_remove_obj(ui_Arc14);
         lv_group_focus_obj(target);
-        lv_group_set_editing(g, 0);
+        lv_group_set_editing(encoder_indev_group, 0);
     }
     if(event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target, LV_STATE_CHECKED)) {
         _ui_flag_modify(ui_Intensiteit_Button_Licht, LV_OBJ_FLAG_CLICKABLE, _UI_MODIFY_FLAG_REMOVE);

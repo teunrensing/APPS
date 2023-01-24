@@ -1,8 +1,5 @@
 #include <stdio.h>
 #include "sdkconfig.h"
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
-#include "esp_system.h"
 #include "esp_spi_flash.h"
 #include <stdbool.h>
 #include <stdio.h>
@@ -18,6 +15,7 @@
 #include "driver/i2c.h"
 #include "gui_helper.h"
 #include "module_driver_helper.h"
+#include "module_driver.h"
 
 #define I2C_MASTER_SCL_IO           CONFIG_I2C_MASTER_SCL      /*!< GPIO number used for I2C master clock */
 #define I2C_MASTER_SDA_IO           CONFIG_I2C_MASTER_SDA      /*!< GPIO number used for I2C master data  */
