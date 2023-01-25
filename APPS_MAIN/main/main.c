@@ -1,8 +1,5 @@
 #include <stdio.h>
 #include "sdkconfig.h"
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
-#include "esp_system.h"
 #include "esp_spi_flash.h"
 #include <stdbool.h>
 #include <stdio.h>
@@ -15,8 +12,10 @@
 #include "freertos/semphr.h"
 #include "esp_system.h"
 #include "esp_log.h"
-#include "gui_helper.h"
 #include "driver/i2c.h"
+#include "gui_helper.h"
+#include "module_driver_helper.h"
+#include "module_driver.h"
 
 #define I2C_MASTER_SCL_IO           CONFIG_I2C_MASTER_SCL      /*!< GPIO number used for I2C master clock */
 #define I2C_MASTER_SDA_IO           CONFIG_I2C_MASTER_SDA      /*!< GPIO number used for I2C master data  */
@@ -65,6 +64,14 @@ void app_main(void)
     initialize_io_expander(&IO_EXP2, TCA9534_NO2_I2C_ADDR);
     gui_peripherals.IO_EXP1 = &IO_EXP1;
     gui_peripherals.IO_EXP2 = &IO_EXP2;
+    gui_peripherals.xQueue1 = xQueueCreate( 10, sizeof(module_parameters_t) );
+
+    if( gui_peripherals.xQueue1 == NULL )
+    {
+        /* Queue was not created and must not be used. */
+    }
+
     xTaskCreatePinnedToCore(guiTask, "gui", LV_TASK_STACK_MEM, (void*) &gui_peripherals, 0, NULL, 1);
+    xTaskCreatePinnedToCore(moduledriverTask, "module driver", LV_TASK_STACK_MEM, (void*)&(gui_peripherals.xQueue1), 0, NULL, 1);
 }
 

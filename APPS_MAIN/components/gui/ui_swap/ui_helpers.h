@@ -1,12 +1,17 @@
 // SquareLine LVGL GENERATED FILE
-// EDITOR VERSION: SquareLine Studio 1.1.1
-// LVGL VERSION: 8.2.0
-// PROJECT: APPS GUI
+// EDITOR VERSION: SquareLine Studio 1.1.0
+// LVGL VERSION: 8.2
+// PROJECT: APPS GUI V5
 
-#ifndef _APPS_GUI_UI_HELPERS_H
-#define _APPS_GUI_UI_HELPERS_H
+#ifndef _APPS_GUI_V5_UI_HELPERS_H
+#define _APPS_GUI_V5_UI_HELPERS_H
 
 #include "ui.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "esp_freertos_hooks.h"
+#include "freertos/semphr.h"
+
 
 #define _UI_TEMPORARY_STRING_BUFFER_SIZE 32
 #define _UI_BAR_PROPERTY_VALUE 0
@@ -90,5 +95,8 @@ void _ui_slider_set_text_value(lv_obj_t * trg, lv_obj_t * src, char * prefix, ch
 
 void _ui_checked_set_text_value(lv_obj_t * trg, lv_obj_t * src, char * txt_on, char * txt_off);
 
+void _ui_send_light_parameters_to_module(QueueHandle_t Queue);
+
+void _ui_turn_module_off(QueueHandle_t Queue);
 
 #endif
