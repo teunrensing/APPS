@@ -19,8 +19,8 @@ typedef struct{
  * @param encoder_instance The encoder handle
  *
  * @return
- *     - ESP_OK   Success! encoder succesfully initialized
- *     - ESP_ERR   Some fault occured
+ *     - ESP_OK   Success! encoder successfully initialized
+ *     - ESP_ERR   Some fault occurred
  */
 esp_err_t config_encoder(encoder_drv_t* encoder_instance);
 /**
@@ -29,8 +29,8 @@ esp_err_t config_encoder(encoder_drv_t* encoder_instance);
  * @param encoder_instance The encoder handle
  *
  * @return
- *     - ESP_OK   Success! encoder succesfully initialized
- *     - ESP_ERR   Some fault occured
+ *     - ESP_OK   Success! encoder successfully initialized
+ *     - ESP_ERR   Some fault occurred
  */
 esp_err_t register_encoder_isr(encoder_drv_t* encoder_instance);
 
@@ -44,7 +44,7 @@ esp_err_t register_encoder_isr(encoder_drv_t* encoder_instance);
  *     - 0 No encoder turns
  *     - < 1 Encoder turns in anti clockwise direction
  */
-int8_t get_encoder_count(encoder_drv_t* encoder_instance);
+int16_t get_encoder_count(encoder_drv_t* encoder_instance);
 
 /**
  * @brief Get the current button status of the encoder

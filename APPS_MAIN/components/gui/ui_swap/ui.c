@@ -33,7 +33,7 @@ lv_obj_t *ui_Tekst_Arc2;
 lv_obj_t *ui_Arc_Interval;
 
 lv_obj_t *ui_Arc3;
-lv_obj_t *ui_Blauwrondje_Interval;
+lv_obj_t *ui_Blauwrondje_interval;
 lv_obj_t *ui_Tekst_Arc3;
 
 lv_obj_t *ui_Intensiteit_Button_TENS;
@@ -1055,18 +1055,18 @@ void ui_TENS_screen_init(void) {
     lv_obj_set_style_bg_color(ui_Arc3, lv_color_hex(0xFFFFFF), LV_PART_KNOB | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_Arc3, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
 
-    ui_Blauwrondje_Interval = lv_obj_create(ui_Arc_Interval);
-    lv_obj_set_width(ui_Blauwrondje_Interval, 120);
-    lv_obj_set_height(ui_Blauwrondje_Interval, 120);
-    lv_obj_set_x(ui_Blauwrondje_Interval, 0);
-    lv_obj_set_y(ui_Blauwrondje_Interval, 5);
-    lv_obj_set_align(ui_Blauwrondje_Interval, LV_ALIGN_CENTER);
-    lv_obj_clear_flag(ui_Blauwrondje_Interval, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_radius(ui_Blauwrondje_Interval, 90, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui_Blauwrondje_Interval, lv_color_hex(0xE6EBFF), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_Blauwrondje_Interval, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_border_color(ui_Blauwrondje_Interval, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_border_opa(ui_Blauwrondje_Interval, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_Blauwrondje_interval = lv_obj_create(ui_Arc_Interval);
+    lv_obj_set_width(ui_Blauwrondje_interval, 120);
+    lv_obj_set_height(ui_Blauwrondje_interval, 120);
+    lv_obj_set_x(ui_Blauwrondje_interval, 0);
+    lv_obj_set_y(ui_Blauwrondje_interval, 5);
+    lv_obj_set_align(ui_Blauwrondje_interval, LV_ALIGN_CENTER);
+    lv_obj_clear_flag(ui_Blauwrondje_interval, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_radius(ui_Blauwrondje_interval, 90, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Blauwrondje_interval, lv_color_hex(0xE6EBFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Blauwrondje_interval, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui_Blauwrondje_interval, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui_Blauwrondje_interval, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Tekst_Arc3 = lv_label_create(ui_Arc_Interval);
     lv_obj_set_width(ui_Tekst_Arc3, LV_SIZE_CONTENT);   /// 1

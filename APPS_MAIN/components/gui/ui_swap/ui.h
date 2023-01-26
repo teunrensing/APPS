@@ -51,7 +51,7 @@ void ui_event_Arc_Interval(lv_event_t * e);
 extern lv_obj_t * ui_Arc_Interval;
 void ui_event_Arc3(lv_event_t * e);
 extern lv_obj_t * ui_Arc3;
-extern lv_obj_t * ui_Blauwrondje_Interval;
+extern lv_obj_t * ui_Blauwrondje_interval;
 extern lv_obj_t * ui_Tekst_Arc3;
 void ui_event_Intensiteit_Button_TENS(lv_event_t * e);
 extern lv_obj_t * ui_Intensiteit_Button_TENS;
