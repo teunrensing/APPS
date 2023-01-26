@@ -1,9 +1,5 @@
-#include <stdio.h>
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
 #include "driver/gpio.h"
 #include "esp_log.h"
-#include "sdkconfig.h"
 #include "encoder_driver.h"
 
 /**
@@ -34,7 +30,7 @@ esp_err_t register_encoder_isr(encoder_drv_t* encoder_instance){
     return ESP_OK;
 }
 
-int8_t get_encoder_count(encoder_drv_t* encoder_instance){
+int16_t get_encoder_count(encoder_drv_t* encoder_instance){
     return encoder_instance->encoder_pulse_count;
 }
 
