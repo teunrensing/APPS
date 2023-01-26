@@ -28,8 +28,11 @@ typedef struct {
     uint8_t test;
 }tens_drv_t;
 
-typedef struct {
-    uint8_t test;
+typedef struct{
+    pin_t* DIR0;
+    pin_t* DIR1;
+    pin_t* DIR2;
+    pin_t* DIR3;
 }motor_drv_t;
 
 typedef union {
