@@ -6,6 +6,7 @@
 #include "sdkconfig.h"
 #include "module_driver.h"
 #include "led_driver.h"
+#include "motor_driver.h"
 
 esp_err_t init_module_slot_pins(module_slot_drv_t* slot){
     module_slot_pins_t *module_pins = &(slot->pins);
@@ -98,19 +99,27 @@ esp_err_t init_module_slot_pins(module_slot_drv_t* slot){
 esp_err_t init_module_drivers(module_slot_drv_t* slot){
 if(slot->driver_1_type == LED_DRIVER_TYPE)
     initialize_led_driver(&(slot->module_driver_1.led_driver), slot->pins.PWM1.location);
+else if (slot->driver_1_type == MOTOR_DRIVER_TYPE)
+    initialize_motor_driver(&(slot->module_driver_1.motor_driver));
 if(slot->driver_2_type == LED_DRIVER_TYPE)
     initialize_led_driver(&(slot->module_driver_2.led_driver), slot->pins.PWM2.location);
+else if (slot->driver_2_type == MOTOR_DRIVER_TYPE)
+    initialize_motor_driver(&(slot->module_driver_2.motor_driver));
 return ESP_OK;
 }
 esp_err_t turn_module_on(module_slot_drv_t* slot){
 if(slot->driver_1_type == LED_DRIVER_TYPE)
     turn_on_led_driver(slot);
+else if (slot->driver_1_type == MOTOR_DRIVER_TYPE)
+    turn_on_motor_driver(&(slot->module_driver_1.motor_driver));
 return ESP_OK;
 }
 
 esp_err_t turn_module_off(module_slot_drv_t* slot){
 if(slot->driver_1_type == LED_DRIVER_TYPE)
     turn_off_led_driver(slot);
+else if (slot->driver_1_type == MOTOR_DRIVER_TYPE)
+    turn_off_motor_driver(&(slot->module_driver_1.motor_driver));
 return ESP_OK;
 }
 esp_err_t refresh_module(module_slot_drv_t* slot){
