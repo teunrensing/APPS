@@ -31,16 +31,14 @@
 #define MODULE_DRIVER_STACK_MEM 4096
 
 #define TAG "MAIN"
-    TCA9534_IO_EXP IO_EXP1;
-    TCA9534_IO_EXP IO_EXP2;
-    EXT_GUI_PERIPHERAL_HANDLES_t gui_peripherals;
+
 static esp_err_t i2c_master_init(i2c_config_t *conf) {
     int i2c_master_port = I2C_MASTER_NUM;
 
     conf->mode = I2C_MODE_MASTER;
     conf->master.clk_speed = I2C_MASTER_FREQ_HZ;
-    conf->sda_io_num = I2C_MASTER_SCL_IO;
-    conf->scl_io_num = I2C_MASTER_SDA_IO;
+    conf->sda_io_num = 21;
+    conf->scl_io_num = 22;
     conf->sda_pullup_en = GPIO_PULLUP_ENABLE;
     conf->scl_pullup_en = GPIO_PULLUP_ENABLE;
     i2c_param_config(i2c_master_port, conf);
@@ -57,7 +55,9 @@ void initialize_io_expander(TCA9534_IO_EXP *IO_EXP, uint8_t i2c_addr) {
 }
 
 void app_main(void) {
-
+    static TCA9534_IO_EXP IO_EXP1;
+    static TCA9534_IO_EXP IO_EXP2;
+    static EXT_GUI_PERIPHERAL_HANDLES_t gui_peripherals;
     i2c_config_t i2c_bus;
     esp_err_t status = i2c_master_init(&i2c_bus);
     if (status != ESP_OK) {

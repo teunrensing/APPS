@@ -9,8 +9,7 @@
 #include "led_strip.h"
 #include "driver/gpio.h"
 
-SemaphoreHandle_t module_driver_Semaphore;
-
+SemaphoreHandle_t module_driver_Semaphore = NULL;
 
 void module_driver1_interval_task(void *pvParameter) {
     module_slot_drv_t *module_slot_1 = (module_slot_drv_t *) pvParameter;
@@ -19,9 +18,9 @@ void module_driver1_interval_task(void *pvParameter) {
         interval = module_slot_1->parameters.interval;
         while (module_slot_1->parameters.state == 1) {
             turn_module_on(module_slot_1);
-            vTaskDelay(interval * 1000 / portTICK_RATE_MS);
+            vTaskDelay(interval * 500 / portTICK_RATE_MS);
             turn_module_off(module_slot_1);
-            vTaskDelay(interval * 1000 / portTICK_RATE_MS);
+            vTaskDelay(interval * 500 / portTICK_RATE_MS);
         }
         turn_module_off(module_slot_1);
     }
@@ -49,7 +48,7 @@ void module_driver_task(void *pvParameter) {
     Module_slot_1.parameters.interval = 0;
     Module_slot_1.parameters.state = 0;
     init_module_drivers(&Module_slot_1);
-
+    module_driver_Semaphore = xSemaphoreCreateMutex();
     xTaskCreatePinnedToCore(module_driver1_interval_task,
                             "module driver 1 interval",
                             2048,
@@ -65,6 +64,7 @@ void module_driver_task(void *pvParameter) {
                               (TickType_t) 10) == pdPASS) {
                 printf("Kleur r: %d g: %d b: %d i: %d iv: %d\n", parameters.kleur[0], parameters.kleur[1],
                        parameters.kleur[2], parameters.intensiteit, parameters.interval);
+
                 Module_slot_1.parameters = parameters;
                 xTaskAbortDelay(module_driver_1_interval);
             }
