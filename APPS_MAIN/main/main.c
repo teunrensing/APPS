@@ -57,7 +57,7 @@ void initialize_io_expander(TCA9534_IO_EXP *IO_EXP, uint8_t i2c_addr) {
 void app_main(void) {
     TCA9534_IO_EXP IO_EXP1;
     TCA9534_IO_EXP IO_EXP2;
-    external_gui_peripheral_handles gui_peripherals;
+    EXT_GUI_PERIPHERAL_HANDLES_t gui_peripherals;
 
     i2c_config_t i2c_bus;
     esp_err_t status = i2c_master_init(&i2c_bus);
@@ -77,7 +77,7 @@ void app_main(void) {
         /* Queue was not created and must not be used. */
     }
 
-    xTaskCreatePinnedToCore(guiTask,
+    xTaskCreatePinnedToCore(gui_task,
                             "gui",
                             LV_TASK_STACK_MEM,
                             (void *) &gui_peripherals,
@@ -85,7 +85,7 @@ void app_main(void) {
                             NULL,
                             GUI_DRIVER_CORE_NUM);
 
-    xTaskCreatePinnedToCore(moduledriverTask,
+    xTaskCreatePinnedToCore(module_driver_task,
                             "module driver",
                             MODULE_DRIVER_STACK_MEM,
                             (void *) &(gui_peripherals.xQueue1),

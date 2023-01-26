@@ -8,8 +8,8 @@ typedef struct {
     TCA9534_IO_EXP *IO_EXP1;
     TCA9534_IO_EXP *IO_EXP2;
     QueueHandle_t xQueue1;
-} external_gui_peripheral_handles;
+} EXT_GUI_PERIPHERAL_HANDLES_t;
 
-void guiTask(void *pvParameter);
+void gui_task(void *pvParameter);
 
 #endif

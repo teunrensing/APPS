@@ -45,9 +45,9 @@ static void lv_tick_task(void *arg) {
     lv_tick_inc(LV_TICK_PERIOD_MS);
 }
 
-void guiTask(void *pvParameter) {
+void gui_task(void *pvParameter) {
 
-    external_gui_peripheral_handles *peripheral_handles = (external_gui_peripheral_handles *) pvParameter;
+    EXT_GUI_PERIPHERAL_HANDLES_t *peripheral_handles = (EXT_GUI_PERIPHERAL_HANDLES_t *) pvParameter;
     xGuiSemaphore = xSemaphoreCreateMutex();
     lv_init();
 

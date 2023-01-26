@@ -10,7 +10,7 @@
 #include "driver/gpio.h"
 
 
-void moduledriverTask(void *pvParameter){
+void module_driver_task(void *pvParameter){
     QueueHandle_t *queue = (QueueHandle_t *)pvParameter;
     module_slot_drv_t Module_slot_1;
     Module_slot_1.module_slot_num = 1;

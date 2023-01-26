@@ -1,6 +1,6 @@
 #ifndef MODULE_DRIVER_HELPER_H
 #define MODULE_DRIVER_HELPER_H
 
-void moduledriverTask(void *pvParameter);
+void module_driver_task(void *pvParameter);
 
 #endif
