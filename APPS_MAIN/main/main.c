@@ -24,7 +24,7 @@
 #define MESSAGE_QUEUE_INBOX_SIZE    10
 #define MODULE_DRIVER_CORE_NUM      0
 #define GUI_DRIVER_CORE_NUM         1
-#define GUI_STACK_DEPTH             0                           /*!< Set to 0 if no allocation for stack space is needed,
+#define GUI_STACK_DEPTH             0                          /*!< Set to 0 if no allocation for stack space is needed,
                                                                  * recommended value = 0 when debugging!*/
 #define MODULE_DRIVER_STACK_DEPTH   0
 
