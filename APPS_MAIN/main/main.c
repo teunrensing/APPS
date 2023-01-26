@@ -37,8 +37,8 @@ static esp_err_t i2c_master_init(i2c_config_t *conf) {
 
     conf->mode = I2C_MODE_MASTER;
     conf->master.clk_speed = I2C_MASTER_FREQ_HZ;
-    conf->sda_io_num = 21;
-    conf->scl_io_num = 22;
+    conf->sda_io_num = I2C_MASTER_SDA_IO;
+    conf->scl_io_num = I2C_MASTER_SCL_IO;
     conf->sda_pullup_en = GPIO_PULLUP_ENABLE;
     conf->scl_pullup_en = GPIO_PULLUP_ENABLE;
     i2c_param_config(i2c_master_port, conf);
