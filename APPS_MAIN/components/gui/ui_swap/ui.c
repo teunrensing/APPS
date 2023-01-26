@@ -7,65 +7,43 @@
 #include "ui_helpers.h"
 
 ///////////////////// VARIABLES ////////////////////
-void Startup_Animation(lv_obj_t *TargetObject, int delay);
 
-void Sluitmoduleaan_Animation(lv_obj_t *TargetObject, int delay);
-
-void ui_event_Startup(lv_event_t *e);
-
+lv_obj_t *ui_Sluit_module_aan;
 lv_obj_t *ui_Startup;
 lv_obj_t *ui_APPS_logo;
 lv_obj_t *ui_Sluit_module_aan1;
 
-void ui_event_Sluit_module_aan(lv_event_t *e);
-
-lv_obj_t *ui_Sluit_module_aan;
 lv_obj_t *ui_TENS;
 lv_obj_t *ui_Titel;
 lv_obj_t *ui_Arc_Standaard;
 lv_obj_t *ui_Arc4;
 
-void ui_event_Start_knop_TENS(lv_event_t *e);
-
 lv_obj_t *ui_Start_knop_TENS;
 lv_obj_t *ui_Arc_Intensiteit;
-
-void ui_event_Arc1(lv_event_t *e);
 
 lv_obj_t *ui_Arc1;
 lv_obj_t *ui_Blauw_rondje_intensiteit;
 lv_obj_t *ui_Tekst_Arc1;
 lv_obj_t *ui_Arc_Frequentie;
 
-void ui_event_Arc2(lv_event_t *e);
-
 lv_obj_t *ui_Arc2;
 lv_obj_t *ui_Blauw_rondje_Frequentie;
 lv_obj_t *ui_Tekst_Arc2;
 
-void ui_event_Arc_Interval(lv_event_t *e);
-
 lv_obj_t *ui_Arc_Interval;
-
-void ui_event_Arc3(lv_event_t *e);
 
 lv_obj_t *ui_Arc3;
 lv_obj_t *ui_Blauwrondje_Interval;
 lv_obj_t *ui_Tekst_Arc3;
 
-void ui_event_Intensiteit_Button_TENS(lv_event_t *e);
-
 lv_obj_t *ui_Intensiteit_Button_TENS;
 lv_obj_t *ui_Intensiteit_getal;
 lv_obj_t *ui_Intensiteit_tekst;
-
-void ui_event_Frequentie_Button_TENS(lv_event_t *e);
 
 lv_obj_t *ui_Frequentie_Button_TENS;
 lv_obj_t *ui_Frequentie_getal;
 lv_obj_t *ui_Frequentie_tekst;
 
-void ui_event_Interval_Button_TENS(lv_event_t *e);
 
 lv_obj_t *ui_Interval_Button_TENS;
 lv_obj_t *ui_Interval_getal;
@@ -75,47 +53,36 @@ lv_obj_t *ui_Titel1;
 lv_obj_t *ui_Arc_Standaard1;
 lv_obj_t *ui_Arc5;
 
-void ui_event_Start_knop_Vibratie(lv_event_t *e);
-
 lv_obj_t *ui_Start_knop_Vibratie;
 lv_obj_t *ui_Arc_Intensiteit1;
 
-void ui_event_Arc6(lv_event_t *e);
 
 lv_obj_t *ui_Arc6;
 lv_obj_t *ui_Blauw_rondje_intensiteit3;
 lv_obj_t *ui_Tekst_Arc4;
 lv_obj_t *ui_Arc_Frequentie1;
 
-void ui_event_Arc7(lv_event_t *e);
 
 lv_obj_t *ui_Arc7;
 lv_obj_t *ui_Blauw_rondje_Frequentie1;
 lv_obj_t *ui_Tekst_Arc5;
 
-void ui_event_Arc_Interval1(lv_event_t *e);
 
 lv_obj_t *ui_Arc_Interval1;
-
-void ui_event_Arc8(lv_event_t *e);
 
 lv_obj_t *ui_Arc8;
 lv_obj_t *ui_Blauwrondje_Interval1;
 lv_obj_t *ui_Tekst_Arc6;
 
-void ui_event_Intensiteit_Button_Vibratie(lv_event_t *e);
 
 lv_obj_t *ui_Intensiteit_Button_Vibratie;
 lv_obj_t *ui_Intensiteit_getal1;
 lv_obj_t *ui_Intensiteit_tekst1;
 
-void ui_event_Frequentie_Button_Vibratie(lv_event_t *e);
 
 lv_obj_t *ui_Frequentie_Button_Vibratie;
 lv_obj_t *ui_Frequentie_getal1;
 lv_obj_t *ui_Frequentie_tekst1;
-
-void ui_event_Interval_Button_Vibratie(lv_event_t *e);
 
 lv_obj_t *ui_Interval_Button_Vibratie;
 lv_obj_t *ui_Interval_getal1;
@@ -125,55 +92,35 @@ lv_obj_t *ui_Titel3;
 lv_obj_t *ui_Arc_Standaard3;
 lv_obj_t *ui_Arc11;
 
-void ui_event_Start_knop_Licht(lv_event_t *e);
-
 lv_obj_t *ui_Start_knop_Licht;
 lv_obj_t *ui_Arc_Intensiteit3;
-
-void ui_event_Arc13(lv_event_t *e);
 
 lv_obj_t *ui_Arc13;
 lv_obj_t *ui_Blauw_rondje_intensiteit7;
 lv_obj_t *ui_Tekst_Arc8;
 lv_obj_t *ui_Kleur;
 
-void ui_event_Button_Rood(lv_event_t *e);
-
 lv_obj_t *ui_Button_Rood;
 lv_obj_t *ui_Rood_Tekst;
-
-void ui_event_Button_Groen(lv_event_t *e);
 
 lv_obj_t *ui_Button_Groen;
 lv_obj_t *ui_Groen_tekst;
 
-void ui_event_Button_Blauw(lv_event_t *e);
-
 lv_obj_t *ui_Button_Blauw;
 lv_obj_t *ui_Blauw_tekst;
-
-void ui_event_Button_Geel(lv_event_t *e);
 
 lv_obj_t *ui_Button_Geel;
 lv_obj_t *ui_Geel_tekst;
 
-void ui_event_Arc_Interval3(lv_event_t *e);
-
 lv_obj_t *ui_Arc_Interval3;
-
-void ui_event_Arc14(lv_event_t *e);
 
 lv_obj_t *ui_Arc14;
 lv_obj_t *ui_Blauwrondje_Interval3;
 lv_obj_t *ui_Tekst_Arc10;
 
-void ui_event_Intensiteit_Button_Licht(lv_event_t *e);
-
 lv_obj_t *ui_Intensiteit_Button_Licht;
 lv_obj_t *ui_Intensiteit_getal3;
 lv_obj_t *ui_Intensiteit_tekst3;
-
-void ui_event_Kleur_Button_Licht(lv_event_t *e);
 
 lv_obj_t *ui_Kleur_Button_Licht;
 lv_obj_t *ui_Kleur_tekst1;
@@ -182,12 +129,9 @@ lv_obj_t *ui_Groen;
 lv_obj_t *ui_Blauw;
 lv_obj_t *ui_Geel;
 
-void ui_event_Interval_Button_Licht(lv_event_t *e);
-
 lv_obj_t *ui_Interval_Button_Licht;
 lv_obj_t *ui_Interval_getal3;
 lv_obj_t *ui_Interval_tekst3;
-uint8_t intensiteit, interval, frequentie = 0;
 ///////////////////// TEST LVGL SETTINGS ////////////////////
 #if LV_COLOR_DEPTH != 16
 #error "LV_COLOR_DEPTH should be 16bit to match SquareLine Studio's settings"
@@ -197,40 +141,6 @@ uint8_t intensiteit, interval, frequentie = 0;
 #endif
 
 ///////////////////// ANIMATIONS ////////////////////
-void Startup_Animation(lv_obj_t *TargetObject, int delay) {
-    lv_anim_t PropertyAnimation_0;
-    lv_anim_init(&PropertyAnimation_0);
-    lv_anim_set_time(&PropertyAnimation_0, 1000);
-    lv_anim_set_user_data(&PropertyAnimation_0, TargetObject);
-    lv_anim_set_custom_exec_cb(&PropertyAnimation_0, _ui_anim_callback_set_image_zoom);
-    lv_anim_set_values(&PropertyAnimation_0, -80, 0);
-    lv_anim_set_path_cb(&PropertyAnimation_0, lv_anim_path_overshoot);
-    lv_anim_set_delay(&PropertyAnimation_0, delay + 0);
-    lv_anim_set_playback_time(&PropertyAnimation_0, 0);
-    lv_anim_set_playback_delay(&PropertyAnimation_0, 0);
-    lv_anim_set_repeat_count(&PropertyAnimation_0, 0);
-    lv_anim_set_repeat_delay(&PropertyAnimation_0, 0);
-    lv_anim_set_early_apply(&PropertyAnimation_0, false);
-    lv_anim_set_get_value_cb(&PropertyAnimation_0, &_ui_anim_callback_get_image_zoom);
-    lv_anim_start(&PropertyAnimation_0);
-    lv_anim_t PropertyAnimation_1;
-    lv_anim_init(&PropertyAnimation_1);
-    lv_anim_set_time(&PropertyAnimation_1, 1000);
-    lv_anim_set_user_data(&PropertyAnimation_1, TargetObject);
-    lv_anim_set_custom_exec_cb(&PropertyAnimation_1, _ui_anim_callback_set_opacity);
-    lv_anim_set_values(&PropertyAnimation_1, -256, 0);
-    lv_anim_set_path_cb(&PropertyAnimation_1, lv_anim_path_linear);
-    lv_anim_set_delay(&PropertyAnimation_1, delay + 0);
-    lv_anim_set_playback_time(&PropertyAnimation_1, 0);
-    lv_anim_set_playback_delay(&PropertyAnimation_1, 0);
-    lv_anim_set_repeat_count(&PropertyAnimation_1, 0);
-    lv_anim_set_repeat_delay(&PropertyAnimation_1, 0);
-    lv_anim_set_early_apply(&PropertyAnimation_1, false);
-    lv_anim_set_get_value_cb(&PropertyAnimation_1, &_ui_anim_callback_get_opacity);
-    lv_anim_start(&PropertyAnimation_1);
-
-}
-
 void Sluitmoduleaan_Animation(lv_obj_t *TargetObject, int delay) {
     lv_anim_t PropertyAnimation_0;
     lv_anim_init(&PropertyAnimation_0);
@@ -296,7 +206,6 @@ void Sluitmoduleaan_Animation(lv_obj_t *TargetObject, int delay) {
 ///////////////////// FUNCTIONS ////////////////////
 void ui_event_Startup(lv_event_t *e) {
     lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t *target = lv_event_get_target(e);
     if (event_code == LV_EVENT_SCREEN_LOADED) {
     }
     if (event_code == LV_EVENT_SCREEN_LOADED) {
@@ -312,7 +221,6 @@ void ui_event_Startup(lv_event_t *e) {
 
 void ui_event_Sluit_module_aan(lv_event_t *e) {
     lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t *target = lv_event_get_target(e);
     if (event_code == LV_EVENT_SCREEN_LOADED) {
         Sluitmoduleaan_Animation(ui_Sluit_module_aan1, 0);
     }
@@ -529,7 +437,6 @@ void ui_event_Arc7(lv_event_t *e) {
 
 void ui_event_Arc_Interval1(lv_event_t *e) {
     lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t *target = lv_event_get_target(e);
     if (event_code == LV_EVENT_CLICKED) {
         _ui_flag_modify(ui_Arc_Interval1, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
     }
@@ -763,7 +670,6 @@ void ui_event_Button_Geel(lv_event_t *e) {
 
 void ui_event_Arc_Interval3(lv_event_t *e) {
     lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t *target = lv_event_get_target(e);
     if (event_code == LV_EVENT_CLICKED) {
         _ui_flag_modify(ui_Arc_Interval3, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
     }
@@ -2091,10 +1997,11 @@ void ui_Licht_screen_init(void) {
 }
 
 void ui_init(void) {
-    lv_disp_t *dispp = lv_disp_get_default();
-    lv_theme_t *theme = lv_theme_default_init(dispp, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED),
+    lv_disp_t *disp_get_default = lv_disp_get_default();
+    lv_theme_t *theme = lv_theme_default_init(disp_get_default, lv_palette_main(LV_PALETTE_BLUE),
+                                              lv_palette_main(LV_PALETTE_RED),
                                               false, LV_FONT_DEFAULT);
-    lv_disp_set_theme(dispp, theme);
+    lv_disp_set_theme(disp_get_default, theme);
     ui_Startup_screen_init();
     ui_TENS_screen_init();
     ui_Vibratie_screen_init();
