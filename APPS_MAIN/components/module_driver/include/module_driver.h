@@ -1,6 +1,9 @@
 #ifndef MODULE_DRIVER_H
 #define MODULE_DRIVER_H
 #include "led_strip.h"
+#include "driver/gpio.h"
+#include "hal/mcpwm_types.h"
+#include "driver/mcpwm.h"
 
 typedef enum{
     pin_type_physical, pin_type_shift_register, pin_type_io_expander, pin_type_adc_chan
@@ -25,11 +28,17 @@ typedef struct {
 }led_drv_t;
 
 typedef struct {
-    uint8_t test;
+    pin_t FB_pin;
+    pin_t PWM_pin;
+    pin_t status_pin;
+    mcpwm_unit_t tens_pwm_config;
 }tens_drv_t;
 
-typedef struct {
-    uint8_t test;
+typedef struct{
+    pin_t* DIR0;
+    pin_t* DIR1;
+    pin_t* DIR2;
+    pin_t* DIR3;
 }motor_drv_t;
 
 typedef union {
