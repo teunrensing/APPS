@@ -5,7 +5,7 @@
 #include "esp_system.h"
 #include "esp_log.h"
 #include "module_driver_helper.h"
-#include "module_recognition.h"
+#include "tools/module_recognition.h"
 #include "led_strip.h"
 #include "driver/gpio.h"
 

@@ -2,50 +2,12 @@
 #define MODULE_DRIVER_H
 #include "led_strip.h"
 #include "driver/gpio.h"
-#include "hal/mcpwm_types.h"
-#include "driver/mcpwm.h"
-
-typedef enum{
-    pin_type_physical, pin_type_shift_register, pin_type_io_expander, pin_type_adc_chan
-}pin_type_t;
-
-typedef struct{
-    pin_type_t type;
-    uint8_t location;
-}pin_t;
+#include "tools/pins.h"
+#include "drivers/driver_types.h"
 
 typedef enum {
     LED_ADDRESSABLE, TENS, MOTOR
 }module_types_t;
-
-typedef enum{
-    UNUSED_DRIVER, LED_DRIVER_TYPE, TENS_DRIVER_TYPE, MOTOR_DRIVER_TYPE
-}driver_types_t;
-
-typedef struct {
-     led_strip_t* led_strip_handle;
-     uint8_t rmt_channel;
-}led_drv_t;
-
-typedef struct {
-    pin_t FB_pin;
-    pin_t PWM_pin;
-    pin_t status_pin;
-    mcpwm_unit_t tens_pwm_config;
-}tens_drv_t;
-
-typedef struct{
-    pin_t* DIR0;
-    pin_t* DIR1;
-    pin_t* DIR2;
-    pin_t* DIR3;
-}motor_drv_t;
-
-typedef union {
-    led_drv_t led_driver;
-    tens_drv_t tens_driver;
-    motor_drv_t motor_driver;
-}driver_t;
 
 
 typedef struct {
@@ -60,13 +22,6 @@ typedef struct {
     uint8_t ID_ADC_NUM;
     uint8_t ID_ADC_CH;
 }module_slot_pins_t;
-
-typedef struct{
-    uint8_t intensiteit;
-    uint8_t kleur[3];
-    uint8_t interval;
-    uint8_t state;
-}module_parameters_t;
 
 typedef struct{
     uint8_t module_slot_num;

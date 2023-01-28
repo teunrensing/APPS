@@ -1,4 +1,4 @@
-#include "motor_driver.h"
+#include "drivers/motor_driver.h"
 #include "driver/gpio.h"
 #include "shift_reg.h"
 
@@ -25,7 +25,7 @@ esp_err_t initialize_motor_driver(motor_drv_t* motor){
     set_pin_level(motor->DIR3, 0);
     return ESP_OK;
 }
-esp_err_t turn_on_motor_driver(motor_drv_t* motor){
+esp_err_t turn_on_motor_driver(motor_drv_t* motor, module_parameters_t* parameters){
     set_pin_level(motor->DIR0, 1);
     set_pin_level(motor->DIR1, 0);
     set_pin_level(motor->DIR2, 1);
