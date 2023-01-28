@@ -6,7 +6,7 @@
 #include "sdkconfig.h"
 #include <driver/adc.h>
 #include "esp_adc_cal.h"
-#include "module_recognition.h"
+#include "tools/module_recognition.h"
 
 #define DEFAULT_VREF    1100        //Use adc2_vref_to_gpio() to obtain a better estimate
 #define NO_OF_SAMPLES   1         //Multisampling

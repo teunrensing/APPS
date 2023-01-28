@@ -5,8 +5,8 @@
 #include "esp_log.h"
 #include "sdkconfig.h"
 #include "module_driver.h"
-#include "led_driver.h"
-#include "motor_driver.h"
+#include "drivers/led_driver.h"
+#include "drivers/motor_driver.h"
 
 esp_err_t init_module_slot_pins(module_slot_drv_t* slot){
     module_slot_pins_t *module_pins = &(slot->pins);
@@ -109,15 +109,15 @@ return ESP_OK;
 }
 esp_err_t turn_module_on(module_slot_drv_t* slot){
 if(slot->driver_1_type == LED_DRIVER_TYPE)
-    turn_on_led_driver(slot);
+    turn_on_led_driver(&(slot->module_driver_1.led_driver), &(slot->parameters));
 else if (slot->driver_1_type == MOTOR_DRIVER_TYPE)
-    turn_on_motor_driver(&(slot->module_driver_1.motor_driver));
+    turn_on_motor_driver(&(slot->module_driver_1.motor_driver), &(slot->parameters));
 return ESP_OK;
 }
 
 esp_err_t turn_module_off(module_slot_drv_t* slot){
 if(slot->driver_1_type == LED_DRIVER_TYPE)
-    turn_off_led_driver(slot);
+    turn_off_led_driver(&(slot->module_driver_1.led_driver));
 else if (slot->driver_1_type == MOTOR_DRIVER_TYPE)
     turn_off_motor_driver(&(slot->module_driver_1.motor_driver));
 return ESP_OK;
