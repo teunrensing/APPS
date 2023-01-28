@@ -2,6 +2,9 @@
 #define LED_DRIVER_H
 #include "feedback_parameters.h"
 
+/**
+ * @brief The led driver struct which contains all data needed to drive a led.
+ */
 typedef struct {
      led_strip_t* led_strip_handle;
      uint8_t rmt_channel;

@@ -4,6 +4,9 @@
 #include "feedback_parameters.h"
 #include "esp_check.h"
 
+/**
+ * @brief The motor driver struct which contains all data needed to drive a motor.
+ */
 typedef struct{
     pin_t* DIR0;
     pin_t* DIR1;

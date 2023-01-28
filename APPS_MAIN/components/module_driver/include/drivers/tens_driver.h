@@ -5,6 +5,9 @@
 #include "driver/mcpwm.h"
 #include "feedback_parameters.h"
 
+/**
+ * @brief The tens driver struct which contains all data needed to drive a tens module.
+ */
 typedef struct {
     pin_t FB_pin;
     pin_t PWM_pin;

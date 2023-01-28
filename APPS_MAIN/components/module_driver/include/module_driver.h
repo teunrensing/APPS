@@ -5,11 +5,17 @@
 #include "tools/pins.h"
 #include "drivers/driver_types.h"
 
+
+/**
+ * @brief The module types supported
+ */
 typedef enum {
     LED_ADDRESSABLE, TENS, MOTOR
 }module_types_t;
 
-
+/**
+ * @brief The module_slot_pins_t struct which can be used to map the pins to the module slot
+ */
 typedef struct {
     uint8_t I2C_SCL;
     uint8_t I2C_SDA;
@@ -23,6 +29,10 @@ typedef struct {
     uint8_t ID_ADC_CH;
 }module_slot_pins_t;
 
+/**
+ * @brief The module_slot_drv_t struct will contain all data related to the module:
+ * Pin mapping, (which) drivers (also the handles for the drivers), feedback parameters and module_slot_number.
+ */
 typedef struct{
     uint8_t module_slot_num;
     module_slot_pins_t pins;
