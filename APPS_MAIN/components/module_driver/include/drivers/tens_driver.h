@@ -15,9 +15,38 @@ typedef struct {
     mcpwm_unit_t tens_pwm_config;
 }tens_drv_t;
 
-
+/**
+ * @brief This function initializes a tens_driver instance
+ *
+ * @param motor The tens_driver instance to be initialized
+ * 
+ * @return
+ *     - ESP_OK  Success!
+ *     - ESP_ERR Error!
+ */
 esp_err_t initialize_tens_driver(tens_drv_t* tens);
+
+/**
+ * @brief This function turns on a tens_driver instance
+ *
+ * @param tens The tens_driver instance to be turned on
+ * @param parameters The feedback parameters used to set up the tens driver before turning on.
+ * 
+ * @return
+ *     - ESP_OK  Success!
+ *     - ESP_ERR Error!
+ */
 esp_err_t turn_on_tens_driver(tens_drv_t* tens, module_parameters_t parameters);
+
+/**
+ * @brief This function turns off a tens_driver instance
+ *
+ * @param tens The tens_driver instance to be turned off
+ * 
+ * @return
+ *     - ESP_OK  Success!
+ *     - ESP_ERR Error!
+ */
 esp_err_t turn_off_tens_driver(tens_drv_t* tens);
 
 #endif
