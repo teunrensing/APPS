@@ -14,7 +14,37 @@ typedef struct{
     pin_t* DIR3;
 }motor_drv_t;
 
+/**
+ * @brief This function initializes a motor_driver instance
+ *
+ * @param motor The motor_driver instance to be initialized
+ * 
+ * @return
+ *     - ESP_OK  Success!
+ *     - ESP_ERR Error!
+ */
 esp_err_t initialize_motor_driver(motor_drv_t* motor);
-esp_err_t turn_on_motor_driver(motor_drv_t* tens, module_parameters_t* parameters);
+
+/**
+ * @brief This function turns on a motor_driver instance
+ *
+ * @param motor The motor_driver instance to be turned on
+ * @param parameters The feedback parameters used to set up the motor driver before turning on.
+ * 
+ * @return
+ *     - ESP_OK  Success!
+ *     - ESP_ERR Error!
+ */
+esp_err_t turn_on_motor_driver(motor_drv_t* motor, module_parameters_t* parameters);
+
+/**
+ * @brief This function turns off a motor_driver instance
+ *
+ * @param motor The motor_driver instance to be turned off
+ * 
+ * @return
+ *     - ESP_OK  Success!
+ *     - ESP_ERR Error!
+ */
 esp_err_t turn_off_motor_driver(motor_drv_t* motor);
 #endif
